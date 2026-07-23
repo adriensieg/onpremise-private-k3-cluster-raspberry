@@ -1,0 +1,10 @@
+tunnel: k3s-ingress
+credentials-file: /etc/cloudflared/credentials.json
+origincert: /etc/cloudflared/cert.pem
+
+ingress:
+  - hostname: mcd.devailab.work
+    service: http://ingress-nginx-controller.ingress-nginx.svc.cluster.local:80
+  - hostname: devailab.work
+    service: http://ingress-nginx-controller.ingress-nginx.svc.cluster.local:80
+  - service: http_status:404
