@@ -1,0 +1,44 @@
+# Kubernetes secrets
+infrastructure/cloudflare/secret.yaml
+**/secret.yaml
+!**/secret.yaml.example
+
+# Cloudflare tunnel credentials
+*.pem
+credentials.json
+cert.pem
+
+# Environment files
+.env
+.env.*
+!.env.example
+
+# Kubeconfig
+kubeconfig
+*.kubeconfig
+.kube/
+
+# SSH keys
+*.pem
+*.key
+id_rsa*
+k3s-cluster*
+
+# Docker
+*.tar
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+*.egg-info/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editors
+.vscode/
+.idea/
+*.swp
