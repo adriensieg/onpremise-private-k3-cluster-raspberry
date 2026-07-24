@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: helloapi
-          image: ghcr.io/adriensieg/public-helloapi:latest
+          image: ghcr.io/adriensieg/public-helloapi:fcd467aaa00bb2007ecfdd82b53aca27261d7872
           imagePullPolicy: Always
           ports:
             - containerPort: 8000
