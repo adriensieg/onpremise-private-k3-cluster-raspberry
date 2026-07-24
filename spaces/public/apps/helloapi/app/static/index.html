@@ -16,7 +16,7 @@
   <pre id="out">Click the button.</pre>
   <script>
     async function ping() {
-      const r = await fetch('api/hello');
+      const r = await fetch('/helloapi/api/hello');
       document.getElementById('out').textContent = JSON.stringify(await r.json(), null, 2);
     }
   </script>
