@@ -16,7 +16,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 2
-
+            
       - name: Build changed-app matrix
         id: build-matrix
         run: |
@@ -29,11 +29,13 @@ jobs:
               APP=$(basename "$APP_DIR")
               if echo "$CHANGED" | grep -qE "^spaces/$WS/apps/$APP/(app/|Dockerfile)"; then
                 ENTRY="{\"ws\":\"$WS\",\"app\":\"$APP\",\"image\":\"$WS-$APP\"}"
-                APPS=$(echo "$APPS" | jq ". + [$ENTRY]")
+                APPS=$(echo "$APPS" | jq -c ". + [$ENTRY]")
               fi
             done
           done
-          echo "matrix={\"include\":$APPS}" >> $GITHUB_OUTPUT
+          MATRIX=$(jq -cn --argjson apps "$APPS" '{include: $apps}')
+          echo "matrix=$MATRIX" >> $GITHUB_OUTPUT
+          echo "Detected: $MATRIX"
 
   build-and-push:
     needs: detect-changes
