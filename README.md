@@ -269,7 +269,113 @@ git push
 ```
 
 # Phase 15 - Adding a second app to public
+
+### 0. Layout
+
+```
+spaces/public/apps/clotilde/
+├── app/
+│   ├── main.py
+│   ├── requirements.txt
+│   └── static/index.html
+├── Dockerfile
+└── k8s/
+    ├── deployment.yaml
+    └── service.yaml
+```
+Plus one edit to `spaces/public/ingress/ingress.yaml`.
+
+
+### 1. Scaffold
+
+```
+mkdir -p spaces/public/apps/clotilde/app/static
+mkdir -p spaces/public/apps/clotilde/k8s
+
+# app/requirements.txt
+# app/main.py
+# app/static/index.html
+# Dockerfile
+# k8s/deployment.yaml
+# k8s/service.yaml
+```
+
+`Dockerfile`
+```
+FROM python:3.12-slim
+
+WORKDIR /app
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    gcc python3-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+COPY app/requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+COPY app/ .
+
+EXPOSE 8000
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
+```
+
+### 3. Add ingress rule
+
+Edit `spaces/public/ingress/ingress.yaml`, add a second path under the same host:
+
+```
+- path: /clotilde(/|$)(.*)
+  pathType: ImplementationSpecific
+  backend:
+    service:
+      name: clotilde
+      port:
+        number: 8000
+```
+
+### 4. Seed the first image
+
+The manifest points at an image that doesn't exist yet. Build and push it once by hand:
+
+```
+docker buildx build --platform linux/arm64 `
+  -t ghcr.io/adriensieg/public-clotilde:latest `
+  --push spaces/public/apps/clotilde
+
+docker buildx build --platform linux/arm64 -t ghcr.io/adriensieg/public-clotilde:latest --push spaces/public/apps/clotilde
+```
+
+Then link the package to the repo at https://github.com/users/adriensieg/packages/container/public-clotilde/settings → Manage Actions access → add repo with Write. Otherwise the first Actions build hits 403.
+
+### 5. Push
+
+```
+git pull
+git add .
+git commit -m "feat: add clotilde notes app"
+git push
+```
+
+Actions builds it, rewrites the tag, commits back. ArgoCD syncs within ~3 min — no new ArgoCD config needed, it already watches `spaces/public`.
+
+### 6. Verify
+
+```
+kubectl get pods -n public -l app=clotilde -w
+```
+
+Then open https://devailab.work/clotilde.
+
 # Phase 16 - Adding a new workspace later
+
+### What i have now? 
+1. https://devailab.work/helloapi
+
+### What i will have? 
+1. Have a home page > https://devailab.work/
+2. Have a new app in the default space > https://devailab.work/
+3. Have a new space > https://techie.devailab.work/
+4. Have a new space with new app > https://techie.devailab.work/helloapi
 
 
 # Issues

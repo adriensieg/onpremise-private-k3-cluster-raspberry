@@ -18,3 +18,10 @@ spec:
                 name: helloapi
                 port:
                   number: 8000
+          - path: /clotilde(/|$)(.*)
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: clotilde
+                port:
+                  number: 8000
