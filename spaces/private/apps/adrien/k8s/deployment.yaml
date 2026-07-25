@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: adrien
-          image: ghcr.io/adriensieg/private-adrien:latest
+          image: ghcr.io/adriensieg/private-adrien:53f86740d00b65e91f8e1cc365b829cf52b3cd6f
           imagePullPolicy: Always
           ports:
             - containerPort: 8000
