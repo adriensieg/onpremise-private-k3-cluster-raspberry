@@ -347,6 +347,19 @@ docker buildx build --platform linux/arm64 -t ghcr.io/adriensieg/public-clotilde
 
 Then link the package to the repo at https://github.com/users/adriensieg/packages/container/public-clotilde/settings → Manage Actions access → add repo with Write. Otherwise the first Actions build hits 403.
 
+[](/static-tutorial/docker-error-auth.png)
+
+The package public-clotilde was created by your manual docker push in Step 9, so it's owned by your account with no link to the repo. GITHUB_TOKEN is repo-scoped, so it's denied. This is Step 9's linking note that got skipped.
+
+[](/static-tutorial/solution-docker-error-auth.png)
+
+##### Fix
+- Go to `https://github.com/users/adriensieg/packages/container/public-clotilde/settings`
+- Scroll to Manage Actions access → Add Repository → select onpremise-private-k3-cluster-raspberry → set role to Write.
+
+##### Re-run
+- Browser: Actions tab → the failed run → Re-run jobs → Re-run failed jobs.
+- It reuses the same commit; nothing to push. The build succeeds, rewrites the tag, commits back — then git pull locally to pick up the bot commit.
 ### 5. Push
 
 ```
