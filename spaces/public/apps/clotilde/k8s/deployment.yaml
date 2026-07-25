@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: clotilde
-          image: ghcr.io/adriensieg/public-clotilde:latest
+          image: ghcr.io/adriensieg/public-clotilde:a1312775ac7e49f473403cf0dbd42cd13bbf543e
           imagePullPolicy: Always
           ports:
             - containerPort: 8000
