@@ -1,24 +1,27 @@
 # 
 Building a bare-metal Kubernetes cluster on Raspberry Pi computers
 
-- Phase 0 — Verify tooling
-- Phase 1 — Back up what you can't regenerate
-- Phase 2 — Clean the cluster
-- Phase 3 — Clone and scaffold
-- Phase 4 — Infrastructure files
-- Phase 5 — Application code
-- Phase 6 — Application manifests
-- Phase 7 — GitHub Actions workflow
-- Phase 8 — Apply infrastructure
-- Phase 9 — Cloudflare DNS
-- Phase 10 — Install ArgoCD
-- Phase 11 — GHCR credentials
-- Phase 12 — Seed the first image
-- Phase 13 — Push and activate
-- Phase 14 — Verify
+# - Boostrap from scratch
+    - Phase 0 — Verify tooling
+    - Phase 1 — Back up what you can't regenerate
+    - Phase 2 — Clean the cluster
+    - Phase 3 — Clone and scaffold
+    - Phase 4 — Infrastructure files
+    - Phase 5 — Application code
+    - Phase 6 — Application manifests
+    - Phase 7 — GitHub Actions workflow
+    - Phase 8 — Apply infrastructure
+    - Phase 9 — Cloudflare DNS
+    - Phase 10 — Install ArgoCD
+    - Phase 11 — GHCR credentials
+    - Phase 12 — Seed the first image
+    - Phase 13 — Push and activate
+    - Phase 14 — Verify
+# - Adding a second app to an existing workspace
 
+# Boostrap from scratch
 
-# Phase 0 — Verify tooling
+### Phase 0 — Verify tooling
 
 On our local Windows machine:
 
@@ -45,14 +48,14 @@ kubectl get pods -A
 
 Both nodes Ready. Note which namespaces are yours vs. system.
 
-# Phase 1 — Back up what you can't regenerate
+### Phase 1 — Back up what you can't regenerate
 
 ```
 kubectl get secret cloudflare-tunnel -n cloudflare -o yaml > $HOME\cloudflare-tunnel-backup.yaml
 kubectl get configmap cloudflared-config -n cloudflare -o yaml > $HOME\cloudflared-config-backup.yaml
 ```
 
-# Phase 2 — Clean the cluster
+### Phase 2 — Clean the cluster
 
 ```
 delete namespace public mcd perso hackaton techie apps
@@ -74,7 +77,7 @@ kubectl get pods -n cloudflare
 
 Both Running.
 
-# Phase 3 — Clone and scaffold
+### Phase 3 — Clone and scaffold
 ```
 cd $HOME
 git clone https://github.com/adriensieg/onpremise-private-k3-cluster-raspberry.git
@@ -115,7 +118,7 @@ onpremise-private-k3-cluster-raspberry/
     └── ingress/ingress.yaml
 ```
 
-# Phase 4 — Infrastructure files
+### Phase 4 — Infrastructure files
 - `.gitignore`
 - `infrastructure/cloudflare/secret.yaml`
 - `infrastructure/namespaces.yaml`
@@ -124,7 +127,7 @@ onpremise-private-k3-cluster-raspberry/
 - `infrastructure/cloudflare/tunnel.yaml`
 - `infrastructure/cloudflare/secret.yaml`
 
-# Phase 5 — Application code
+### Phase 5 — Application code
 This endpoint provides a **lightweight health check** that Kubernetes can use for **liveness** and **readiness probes** to verify the application is **running** and able to **serve traffic**, enabling **automated restarts** and **traffic routing decisions**.
 
 ```
@@ -133,16 +136,16 @@ def health():
     return {"status": "ok"}
 ```
 
-# Phase 6 — Application manifests
+### Phase 6 — Application manifests
 - `spaces/public/apps/helloapi/k8s/deployment.yaml`
 - `spaces/public/apps/helloapi/k8s/service.yaml`
 - `spaces/public/ingress/ingress.yaml`
 - `argocd/apps/public.yaml`
 
-# Phase 7 — GitHub Actions workflow
+### Phase 7 — GitHub Actions workflow
 - `.github/workflows/deploy.yaml`
 
-# Phase 8 — Apply infrastructure
+### Phase 8 — Apply infrastructure
 Order matters — namespaces first, secret before the deployment that mounts it:
 
 ```
@@ -169,7 +172,7 @@ Logs should show the tunnel registering without errors.
 
 No DNS step needed — `devailab.work` is already in Cloudflare and live.
 
-# Phase 9 — Install ArgoCD
+### Phase 9 — Install ArgoCD
 
 ```
 kubectl create namespace argocd
@@ -194,7 +197,7 @@ argocd login localhost:8080 --username admin --password <PASTE> --insecure
 argocd account update-password
 ```
 
-# Phase 10 — GHCR credentials
+### Phase 10 — GHCR credentials
 
 Create a PAT at https://github.com/settings/tokens → classic → scope read:packages → no expiration.
 
@@ -214,7 +217,7 @@ Verify:
 kubectl get secret ghcr-secret -n public
 ```
 
-# Phase 11 — Seed the first image
+### Phase 11 — Seed the first image
 ```
 echo $PAT | docker login ghcr.io -u adriensieg --password-stdin
 
@@ -225,7 +228,7 @@ docker buildx build --platform linux/arm64 `
 
 Confirm it landed at `https://github.com/adriensieg?tab=packages`
 
-# Phase 12 — Push and activate
+### Phase 12 — Push and activate
 ```
 git add .
 git commit -m "feat: initial CICD setup with helloapi"
@@ -240,7 +243,7 @@ kubectl apply -f argocd/apps/public.yaml
 argocd app sync public
 ```
 
-# Phase 13 — Verify
+### Phase 13 — Verify
 
 ```
 argocd app list
@@ -259,7 +262,7 @@ kubectl describe ingress public-ingress -n public
 kubectl logs -n ingress-nginx -l app.kubernetes.io/name=ingress-nginx --tail=50
 ```
 
-# Phase 14 - How to modify the current app? The loop from now on
+### Phase 14 - How to modify the current app? The loop from now on
 
 ```
 # edit spaces/public/apps/helloapi/app/main.py
@@ -268,7 +271,7 @@ git commit -m "feat: change message"
 git push
 ```
 
-# Phase 15 - Adding a second app to public
+# Adding a second app to an existing workspace
 
 ### 0. Layout
 
@@ -379,20 +382,126 @@ kubectl get pods -n public -l app=clotilde -w
 
 Then open https://devailab.work/clotilde.
 
-# Phase 16 - Adding a new workspace later
+# Adding a new workspace
 
+
+A new workspace needs the five home-network steps, not just app files. URL will be `https://private.devailab.work/adrien`
+
+### Step 0: Layout
+
+```
+spaces/private/
+├── apps/adrien/
+│   ├── app/
+│   │   ├── main.py
+│   │   ├── requirements.txt
+│   │   └── static/index.html
+│   ├── Dockerfile
+│   └── k8s/
+│       ├── deployment.yaml
+│       └── service.yaml
+└── ingress/ingress.yaml
+```
+
+### Step 1 — Scaffold
+
+```
+mkdir -p spaces/private/apps/adrien/app/static
+mkdir -p spaces/private/apps/adrien/k8s
+mkdir -p spaces/private/ingress
+```
+
+### Step 2 — Add namespace
+
+Append to `infrastructure/namespaces.yaml`:
+```
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: private
+```
+
+Apply:
+```
+kubectl apply -f infrastructure/namespaces.yaml
+```
+
+### Step 3 — Cloudflare tunnel route
+
+Add the hostname to `infrastructure/cloudflare/configmap.yaml`, above the http_status:404 line:
+
+```
+      - hostname: private.devailab.work
+        service: http://ingress-nginx-controller.ingress-nginx.svc.cluster.local:80
+```
+Apply and restart:
+```
+kubectl apply -f infrastructure/cloudflare/configmap.yaml
+kubectl rollout restart deployment cloudflared -n cloudflare
+```
+
+### Step 4 — Cloudflare DNS
+
+Dashboard → add CNAME: name private, target <tunnel-id>.cfargotunnel.com, proxied.
+
+### Step 5 — Pull secret in new namespace
+
+```
+$PAT = "ghp_PASTE_HERE"
+kubectl create secret docker-registry ghcr-secret `
+  --docker-server=ghcr.io `
+  --docker-username=adriensieg `
+  --docker-password=$PAT `
+  --docker-email=your@email.com `
+  -n private
+
+We can get your GitHub Personal Access Token (PAT) https://github.com/settings/tokens
+
+kubectl create secret docker-registry ghcr-secret --docker-server=ghcr.io --docker-username=adriensieg --docker-password=$PAT --docker-email=adriensieg@hotmail.fr -n private
+```
+
+### Step 6 — Seed the image + link package
+
+```
+cd C:\Users\cloti\Desktop\HandsOn\onpremise-private-k3-cluster-raspberry
+
+docker buildx build --platform linux/arm64 -t ghcr.io/adriensieg/private-adrien:latest --push spaces/private/apps/adrien
+```
+
+Then link it: `https://github.com/users/adriensieg/packages/container/private-adrien/settings` → Manage Actions access → add repo with Write. Skips the 403 on first Actions build.
+
+### Step 7 — Register ArgoCD app + push
+
+```
+kubectl apply -f argocd/apps/private.yaml
+
+git pull
+git add .
+git commit -m "feat: add private workspace with adrien app"
+git push
+```
+
+### Step 8 — Verify
+
+```
+kubectl get pods -n private -w
+```
+Then open `https://private.devailab.work/adrien`
+
+# TO COME
 ### What i have now? 
 1. https://devailab.work/helloapi
+2. https://devailab.work/clotilde
 
 ### What i will have? 
 1. Have a home page > https://devailab.work/
 2. Have a new app in the default space > https://devailab.work/
-3. Have a new space > https://techie.devailab.work/
-4. Have a new space with new app > https://techie.devailab.work/helloapi
+3. Have a new space > https://private.devailab.work/
+4. Have a new space with new app > https://private.devailab.work/helloapi
 
 
-# Issues
-
+# Current issues
 The applicationset-controller crash
 
 argocd-applicationset-controller is in CrashLoopBackOff with 36 restarts. You don't use ApplicationSets, so this doesn't block anything — but it's burning CPU on a Pi. Once the deployment works, either investigate it:
