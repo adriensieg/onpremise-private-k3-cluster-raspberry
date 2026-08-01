@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: twillio-gtw
+  namespace: techie
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: twillio-gtw
+  template:
+    metadata:
+      labels:
+        app: twillio-gtw
+    spec:
+      imagePullSecrets:
+        - name: ghcr-secret
+      containers:
+        - name: twillio-gtw
+          image: ghcr.io/adriensieg/techie-twillio-gtw:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8000
+          env:
+            - name: PORT
+              value: "8000"
+            - name: APP_BASE_URL
+              value: "https://techie.devailab.work"
+            - name: TECHNICIAN_PHONE
+              value: "+17734058426"
+          envFrom:
+            - secretRef:
+                name: techie-secrets

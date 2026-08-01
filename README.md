@@ -383,8 +383,6 @@ kubectl get pods -n public -l app=clotilde -w
 Then open https://devailab.work/clotilde.
 
 # Adding a new workspace
-
-
 A new workspace needs the five home-network steps, not just app files. URL will be `https://private.devailab.work/adrien`
 
 ### Step 0: Layout
@@ -461,7 +459,7 @@ We can get your GitHub Personal Access Token (PAT) https://github.com/settings/t
 kubectl create secret docker-registry ghcr-secret --docker-server=ghcr.io --docker-username=adriensieg --docker-password=$PAT --docker-email=adriensieg@hotmail.fr -n private
 ```
 
-### Step 6 — Seed the image + link package
+Build into an ARM64 Docker image to GHCR
 
 ```
 cd C:\Users\cloti\Desktop\HandsOn\onpremise-private-k3-cluster-raspberry
@@ -493,6 +491,7 @@ Then open `https://private.devailab.work/adrien`
 ### What i have now? 
 1. https://devailab.work/helloapi
 2. https://devailab.work/clotilde
+3. https://perso.devailab.work/adrien
 
 ### What i will have? 
 1. Have a home page > https://devailab.work/
