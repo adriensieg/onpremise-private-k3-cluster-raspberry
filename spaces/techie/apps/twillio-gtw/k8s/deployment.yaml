@@ -17,7 +17,7 @@ spec:
         - name: ghcr-secret
       containers:
         - name: twillio-gtw
-          image: ghcr.io/adriensieg/techie-twillio-gtw:latest
+          image: ghcr.io/adriensieg/techie-twillio-gtw:12fbc7de5e93786324ba02878e0a280517793d9d
           imagePullPolicy: Always
           ports:
             - containerPort: 8000
