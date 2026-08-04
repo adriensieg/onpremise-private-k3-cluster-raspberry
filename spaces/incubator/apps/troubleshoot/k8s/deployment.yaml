@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: troubleshoot
-          image: ghcr.io/adriensieg/incubator-troubleshoot:latest
+          image: ghcr.io/adriensieg/incubator-troubleshoot:6525cb32ecaa02bf8ae7a971e6718159d3c485ed
           imagePullPolicy: Always
           ports:
             - containerPort: 8000
