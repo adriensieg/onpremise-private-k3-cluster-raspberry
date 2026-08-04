@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Screen Share Helper</title>
+    <link rel="stylesheet" href="{{ root_path }}/static/style.css">
+    <script>window.ROOT_PATH = "{{ root_path }}";</script>
+</head>
+
+<body>
+    <header>
+        <h1>Screen Share Helper</h1>
+        <p class="subtitle">Share your screen and get live, step-by-step help with any app.</p>
+    </header>
+
+    <main>
+        <section class="stage">
+            <div class="video-wrap">
+                <video id="videoElement" autoplay playsinline muted></video>
+                <div id="videoPlaceholder" class="placeholder">
+                    Your shared screen will appear here.
+                </div>
+            </div>
+            <canvas id="canvasElement" hidden></canvas>
+
+            <div class="controls">
+                <button id="shareButton" class="btn btn-primary">Share screen</button>
+                <button id="micButton" class="btn btn-accent" disabled>Start talking</button>
+                <button id="stopButton" class="btn btn-ghost" disabled>Stop</button>
+                <span id="status" class="status">Not connected</span>
+            </div>
+        </section>
+
+        <section class="chat">
+            <h2>Assistant</h2>
+            <div id="chatLog" class="chat-log">
+                <p class="hint">Tip: share your screen, click <strong>Start talking</strong>,
+                    and say something like "I'm stuck — what do I click next?"</p>
+            </div>
+        </section>
+    </main>
+
+    <script src="{{ root_path }}/static/script.js"></script>
+</body>
+
+</html>

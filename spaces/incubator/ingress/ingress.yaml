@@ -1,0 +1,23 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: incubator-ingress
+  namespace: incubator
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
+    # Long timeouts so the Gemini Live WebSocket session isn't dropped.
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: incubator.devailab.work
+      http:
+        paths:
+          - path: /troubleshoot(/|$)(.*)
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: troubleshoot
+                port:
+                  number: 8000

@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: troubleshoot
+  namespace: incubator
+  labels:
+    app: troubleshoot
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: troubleshoot
+  template:
+    metadata:
+      labels:
+        app: troubleshoot
+    spec:
+      containers:
+        - name: troubleshoot
+          image: ghcr.io/adriensieg/incubator-troubleshoot:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8000
+          env:
+            # URL prefix the app is served under (matches the ingress path).
+            - name: ROOT_PATH
+              value: "/troubleshoot"
+            # Gemini API key, read from a Secret you create in the namespace.
+            - name: GOOGLE_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: troubleshoot-secrets
+                  key: GOOGLE_API_KEY
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8000
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8000
+            initialDelaySeconds: 15
+            periodSeconds: 30
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "128Mi"
+            limits:
+              cpu: "500m"
+              memory: "512Mi"
+      imagePullSecrets:
+        - name: ghcr-secret
