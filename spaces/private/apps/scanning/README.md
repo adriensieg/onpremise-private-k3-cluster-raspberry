@@ -86,7 +86,7 @@ kubectl apply -f argocd/apps/private.yaml
 
 git pull
 git add .
-git commit -m "feat: add private workspace with adrien app"
+git commit -m "feat: add private workspace with scanning app"
 git push
 ```
 
