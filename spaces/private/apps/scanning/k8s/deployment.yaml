@@ -19,7 +19,7 @@ spec:
         - name: ghcr-secret
       containers:
         - name: scanning
-          image: ghcr.io/adriensieg/private-scanning:latest
+          image: ghcr.io/adriensieg/private-scanning:f4d5098b4072ea745a536166b65a0085aace9748
           imagePullPolicy: Always
           ports:
             - containerPort: 8000
