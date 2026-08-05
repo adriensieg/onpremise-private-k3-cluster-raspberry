@@ -1,20 +1,23 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: private-ingress
+  name: private-scanning
   namespace: private
   annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /$2
+    # Passthrough: forward the full /scanning/... path to the app unchanged.
+    # The app is configured with ROOT_PATH=/scanning and serves those paths itself,
+    # so NO rewrite-target is used here.
+    nginx.ingress.kubernetes.io/use-regex: "true"
 spec:
   ingressClassName: nginx
   rules:
     - host: private.devailab.work
       http:
         paths:
-          - path: /adrien(/|$)(.*)
-            pathType: ImplementationSpecific
+          - path: /scanning
+            pathType: Prefix
             backend:
               service:
-                name: adrien
+                name: scanning
                 port:
-                  number: 8000
+                  number: 80
