@@ -19,7 +19,7 @@ spec:
         - name: ghcr-secret
       containers:
         - name: push
-          image: ghcr.io/adriensieg/mcd-push:latest
+          image: ghcr.io/adriensieg/mcd-push:f05ffa7124fcf6c02d4028966b91850c3ceb4546
           imagePullPolicy: Always
           ports:
             - containerPort: 8000
