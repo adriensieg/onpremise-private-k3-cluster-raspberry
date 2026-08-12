@@ -9,14 +9,12 @@ from fastapi.templating import Jinja2Templates
 APP_TITLE = os.getenv("APP_TITLE", "Incubator")
 BASE_DIR = Path(__file__).resolve().parent
 
-# The hub lives at the domain root, so it owns "/", the manifest, and the
+# The hub lives at the domain root: it owns "/", the manifest, and the
 # root-scoped service worker for the WHOLE origin.
 app = FastAPI(title=APP_TITLE)
 app.mount("/static", StaticFiles(directory=BASE_DIR / "static"), name="static")
 templates = Jinja2Templates(directory=str(BASE_DIR / "templates"))
 
-# Catalog of services shown on the hub. Each launches a separate pod behind
-# the shared ingress, but the user stays inside the one installed PWA.
 SERVICES = [
     {
         "name": "Scanning",
@@ -48,7 +46,6 @@ def index(request: Request):
 
 @app.get("/offline", response_class=HTMLResponse, include_in_schema=False)
 def offline(request: Request):
-    # Cached by the service worker and shown for any uncached navigation.
     return templates.TemplateResponse(
         "offline.html", {"request": request, "app_title": APP_TITLE}
     )
@@ -56,7 +53,6 @@ def offline(request: Request):
 
 @app.get("/manifest.json", include_in_schema=False)
 def manifest():
-    # scope "/" so the single installed PWA covers every sub-app path.
     return JSONResponse(
         {
             "name": APP_TITLE,
@@ -83,8 +79,6 @@ def manifest():
 
 @app.get("/sw.js", include_in_schema=False)
 def service_worker():
-    # Served from the ROOT so its scope can be "/". The header lets a file at
-    # "/sw.js" claim the whole-origin scope.
     resp = FileResponse(BASE_DIR / "static" / "sw.js", media_type="application/javascript")
     resp.headers["Service-Worker-Allowed"] = "/"
     resp.headers["Cache-Control"] = "no-cache"

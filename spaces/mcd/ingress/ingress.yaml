@@ -27,6 +27,13 @@ spec:
                 name: troubleshoot
                 port:
                   number: 80
+          - path: /push
+            pathType: Prefix
+            backend:
+              service:
+                name: push
+                port:
+                  number: 80
           # --- Hub owns the PWA entry points explicitly ---
           # /sw.js and /manifest.json MUST resolve to the hub so the single
           # root-scoped service worker controls the whole origin.

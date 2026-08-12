@@ -20,6 +20,10 @@
 <body>
   <div class="app-shell">
     <header class="hub-header">
+      <button id="bell-btn" class="bell-btn" aria-label="Notifications">
+        <i class="bi bi-bell"></i>
+        <span id="bell-count" class="bell-count d-none">0</span>
+      </button>
       <div class="hub-logo"><img src="/static/icons/icon-192.png" alt=""></div>
       <h1 class="hub-title">{{ app_title }}</h1>
       <p class="hub-tagline">Your home equipment companion.</p>
@@ -63,6 +67,22 @@
     </div>
   </div>
 
+  <!-- Notification center -->
+  <div id="notif-panel" class="notif-panel" hidden>
+    <div class="notif-sheet">
+      <div class="notif-head">
+        <h2 class="notif-title">Notifications</h2>
+        <div class="notif-actions">
+          <button id="notif-clear" class="btn btn-sm btn-link">Clear all</button>
+          <button id="notif-close" class="btn-close" aria-label="Close"></button>
+        </div>
+      </div>
+      <ul id="notif-list" class="notif-list list-unstyled"></ul>
+      <p id="notif-empty" class="notif-empty">No notifications yet.</p>
+    </div>
+  </div>
+
+  <script src="/static/notif-store.js"></script>
   <script src="/static/script.js"></script>
 </body>
 </html>
