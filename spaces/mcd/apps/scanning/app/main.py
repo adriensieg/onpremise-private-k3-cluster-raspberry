@@ -1,21 +1,24 @@
 """Restaurant Equipment Identification.
 
-    GET    /                     UI
-    GET    /api/health           service and catalog status
-    GET    /api/catalog          categories and models
-    GET    /api/equipment/{id}   one reference record
-    POST   /api/detect           photo -> detected assets
-    POST   /api/identify         crop  -> specific model
-    GET    /api/inventory        every saved item
-    POST   /api/inventory        save one or more items
-    PATCH  /api/inventory/{id}   edit a saved item
-    DELETE /api/inventory/{id}   remove a saved item
+    GET    {ROOT}/                     UI
+    GET    {ROOT}/api/health           service and catalog status
+    GET    {ROOT}/api/catalog          categories and models
+    GET    {ROOT}/api/equipment/{id}   one reference record
+    POST   {ROOT}/api/detect           photo -> detected assets
+    POST   {ROOT}/api/identify         crop  -> specific model
+    GET    {ROOT}/api/inventory        every saved item
+    POST   {ROOT}/api/inventory        save one or more items
+    PATCH  {ROOT}/api/inventory/{id}   edit a saved item
+    DELETE {ROOT}/api/inventory/{id}   remove a saved item
+
+ROOT_PATH (e.g. /scanning) prefixes every route so the app serves the full
+path the ingress forwards. Empty in local dev, so paths are bare.
 """
 import io
 import os
 
 import uvicorn
-from fastapi import FastAPI, HTTPException
+from fastapi import APIRouter, FastAPI, HTTPException
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
@@ -29,10 +32,20 @@ from core.store import store
 from core.vision import (HEIC_SUPPORTED, decode_data_url, detect, encode,
                          identify, load_image, preview)
 
+# ROOT_PATH like "/scanning"; "" locally. Strip any trailing slash.
+PREFIX = settings.root_path.rstrip("/")
+
 app = FastAPI(title="Restaurant Equipment Identification", version="1.1.0")
-app.mount("/static", StaticFiles(directory=os.path.join(ROOT, "static")), name="static")
-app.mount("/captures", StaticFiles(directory=store.captures), name="captures")
+
+# Static + captures served under the same prefix so absolute asset URLs
+# in the page resolve behind the ingress.
+app.mount(PREFIX + "/static",
+          StaticFiles(directory=os.path.join(ROOT, "static")), name="static")
+app.mount(PREFIX + "/captures",
+          StaticFiles(directory=store.captures), name="captures")
 templates = Jinja2Templates(directory=os.path.join(ROOT, "templates"))
+
+router = APIRouter(prefix=PREFIX)
 
 
 class DetectRequest(BaseModel):
@@ -91,12 +104,13 @@ class InventoryPatch(BaseModel):
     equipment_id: str | None = None
 
 
-@app.get("/", response_class=HTMLResponse)
+@router.get("/", response_class=HTMLResponse)
 def index(request: Request):
-    return templates.TemplateResponse(request, "index.html", {})
+    # Pass the prefix so the template can build correct asset/API URLs.
+    return templates.TemplateResponse(request, "index.html", {"root_path": PREFIX})
 
 
-@app.get("/api/health")
+@router.get("/api/health")
 def health():
     return {"status": "ok",
             "equipment_count": len(catalog.equipment),
@@ -106,12 +120,12 @@ def health():
             "model": settings.gemini_model}
 
 
-@app.get("/api/catalog")
+@router.get("/api/catalog")
 def get_catalog():
     return {"categories": {c: catalog.models_for(c) for c in catalog.categories()}}
 
 
-@app.get("/api/equipment/{equipment_id}")
+@router.get("/api/equipment/{equipment_id}")
 def get_equipment(equipment_id: str):
     record = catalog.by_id.get(equipment_id)
     if not record:
@@ -119,7 +133,7 @@ def get_equipment(equipment_id: str):
     return record
 
 
-@app.post("/api/detect", response_model=DetectResponse)
+@router.post("/api/detect", response_model=DetectResponse)
 def api_detect(req: DetectRequest):
     raw = decode_data_url(req.image)
     try:
@@ -138,7 +152,7 @@ def api_detect(req: DetectRequest):
         raise HTTPException(status_code=502, detail="%s: %s" % (type(e).__name__, e))
 
 
-@app.post("/api/identify", response_model=IdentifyResponse)
+@router.post("/api/identify", response_model=IdentifyResponse)
 def api_identify(req: IdentifyRequest):
     # Not downscaled - the crop is already sized to keep a badge legible.
     try:
@@ -151,19 +165,19 @@ def api_identify(req: IdentifyRequest):
         raise HTTPException(status_code=502, detail="%s: %s" % (type(e).__name__, e))
 
 
-@app.get("/api/inventory")
+@router.get("/api/inventory")
 def list_inventory():
     return {"items": store.all()}
 
 
-@app.post("/api/inventory")
+@router.post("/api/inventory")
 def add_inventory(items: list[InventoryItem]):
     # Each add goes to the front, so reverse to keep the reviewed order.
     added = [store.add(i.model_dump()) for i in reversed(items)]
     return {"items": list(reversed(added))}
 
 
-@app.patch("/api/inventory/{item_id}")
+@router.patch("/api/inventory/{item_id}")
 def patch_inventory(item_id: str, changes: InventoryPatch):
     item = store.update(item_id, changes.model_dump(exclude_none=True))
     if item is None:
@@ -171,20 +185,24 @@ def patch_inventory(item_id: str, changes: InventoryPatch):
     return item
 
 
-@app.delete("/api/inventory/{item_id}")
+@router.delete("/api/inventory/{item_id}")
 def delete_inventory(item_id: str):
     if not store.delete(item_id):
         raise HTTPException(status_code=404, detail="unknown item id")
     return {"deleted": item_id}
 
 
+app.include_router(router)
+
+
 if __name__ == "__main__":
     print("catalog:   %d records, %d categories, %d images"
           % (len(catalog.equipment), len(catalog.categories()), len(catalog.images)))
     print("inventory: %d item(s) in %s" % (len(store.items), settings.inventory_path))
+    print("root_path: %r" % PREFIX)
     if not HEIC_SUPPORTED:
         print("WARNING: pillow-heif not installed - iPhone .heic uploads will fail")
     if not settings.api_key:
         print("WARNING: GEMINI_API_KEY is not set in .env")
-    print("open http://localhost:%d  (camera needs localhost)" % settings.port)
+    print("open http://localhost:%d%s/" % (settings.port, PREFIX))
     uvicorn.run(app, host=settings.host, port=settings.port)

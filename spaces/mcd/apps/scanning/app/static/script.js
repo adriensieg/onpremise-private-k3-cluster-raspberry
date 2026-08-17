@@ -1,3 +1,8 @@
+// Prefix the app is mounted under (e.g. "/scanning"), injected by the template
+// as window.ROOT_PATH. Empty string in local dev, so all paths stay bare.
+const API_BASE = (window.ROOT_PATH || "").replace(/\/$/, "");
+function u(path) { return API_BASE + path; }
+
 const ZONES = ["Kitchen - fry station", "Kitchen - grill station", "Beverage station", "Front counter", "Back room"];
 
 const EQUIPMENT_ART = {
@@ -25,7 +30,7 @@ function equipmentPhoto(type) {
 let inventory = [];
 
 function api(path, method, body) {
-  return fetch(path, {
+  return fetch(u(path), {
     method: method || "GET",
     headers: body ? { "Content-Type": "application/json" } : {},
     body: body ? JSON.stringify(body) : undefined
@@ -34,7 +39,7 @@ function api(path, method, body) {
 
 // Turn the stored filename back into a URL so it.photo works everywhere.
 function fromServer(it) {
-  it.photo = it.photo ? "/captures/" + it.photo : null;
+  it.photo = it.photo ? u("/captures/" + it.photo) : null;
   it.equipmentId = it.equipment_id || null;
   return it;
 }
@@ -104,7 +109,7 @@ function needsReview(it) { return [it.typeConf, it.modelConf].includes("low") ||
 let photoSeq = 0;      // which uploaded/captured photo an item came from
 let CATEGORIES = [];
 let CATALOG = {};          // category -> [{mfr, model}]
-fetch("/api/catalog").then(r => r.json())
+fetch(u("/api/catalog")).then(r => r.json())
   .then(d => {
     CATALOG = d.categories || {};
     CATEGORIES = Object.keys(CATALOG);
@@ -136,7 +141,7 @@ function startCamera() {
   if (!window.isSecureContext && location.hostname !== "localhost"
       && location.hostname !== "127.0.0.1") {
     cameraFallback("Camera needs a secure page. Open http://localhost:" +
-                   (location.port || "8080") + " (not " + location.hostname +
+                   (location.port || "8000") + " (not " + location.hostname +
                    "), or use Upload photos.");
     return;
   }
@@ -619,7 +624,7 @@ function detectFrame(framePhoto, inBatch) {
   if (!scanning) return Promise.resolve();
   if (!inBatch) { setShutter(false); setScanStatus("Detecting...");
                   procShow("Analysing photo"); procUpdate(35, "Looking for equipment..."); }
-  return fetch("/api/detect", { method: "POST", headers: { "Content-Type": "application/json" },
+  return fetch(u("/api/detect"), { method: "POST", headers: { "Content-Type": "application/json" },
                             body: JSON.stringify({ image: framePhoto }) })
     .then(r => r.json())
     .then(d => {
@@ -677,7 +682,7 @@ function idPump() {
   while (idActive < ID_POOL && idQueue.length) {
     const it = idQueue.shift();
     idActive += 1;
-    fetch("/api/identify", { method: "POST", headers: { "Content-Type": "application/json" },
+    fetch(u("/api/identify"), { method: "POST", headers: { "Content-Type": "application/json" },
                          body: JSON.stringify({ image: it.photo, category: it.type,
                                                 hint: [it.model, it.why].filter(Boolean).join(" ") }) })
       .then(r => r.json())
