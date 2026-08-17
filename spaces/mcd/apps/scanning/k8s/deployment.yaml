@@ -24,21 +24,34 @@ spec:
           ports:
             - containerPort: 8000
           env:
-            - name: ROOT_PATH
-              value: "/scanning"
-            - name: DATA_FILE
-              value: "/data/data.txt"
+            - name: HOST
+              value: "0.0.0.0"
+            - name: PORT
+              value: "8000"
+            - name: GEMINI_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: gemini
+                  key: GEMINI_API_KEY
+            - name: GEMINI_MODEL
+              value: "gemini-2.5-flash"
+            - name: INVENTORY_PATH
+              value: "/data/inventory.txt"
+            - name: CAPTURES_DIR
+              value: "/data/captures"
+            - name: CACHE_DIR
+              value: "/data/cache"
           readinessProbe:
-            httpGet: { path: /scanning/health, port: 8000 }
+            httpGet: { path: /api/health, port: 8000 }
             initialDelaySeconds: 5
             periodSeconds: 10
           livenessProbe:
-            httpGet: { path: /scanning/health, port: 8000 }
+            httpGet: { path: /api/health, port: 8000 }
             initialDelaySeconds: 15
             periodSeconds: 30
           resources:
-            requests: { cpu: "50m", memory: "64Mi" }
-            limits: { cpu: "500m", memory: "256Mi" }
+            requests: { cpu: "100m", memory: "128Mi" }
+            limits: { cpu: "1000m", memory: "512Mi" }
           volumeMounts:
             - name: data
               mountPath: /data

@@ -1,0 +1,790 @@
+{
+  "schema_version": "1.0",
+  "database_name": "restaurant_equipment_reference",
+  "description": "Reference database for multimodal visual identification.",
+  "source_document": "McDonalds_StoreEquipment_Identification.pdf",
+  "equipment": [
+    {
+      "equipment_id": "EQ-FRYER-HENNYPENNY-LOV-4VAT",
+      "equipment_type": "fryer",
+      "category": "Fryer",
+      "manufacturer": "Henny Penny",
+      "model": "LOV 4-Vat Series (LVE/LVG-200 or -100)",
+      "display_name": "Henny Penny LOV 4-Vat Open Fryer",
+      "reference_images": [
+        {
+          "image_id": "IMG-FRYER-LOV4VAT-001",
+          "path": "data/images/EQ-FRYER-HENNYPENNY-LOV-4VAT.webp",
+          "description": "Four-vat Henny Penny LOV fryer bank with overhead automatic basket-lift rails, four wire baskets raised over the vats, and four individual digital vat controllers along the front fascia."
+        }
+      ],
+      "identification_features": {
+        "visual_features": [
+          "'LOV' branding visible on each of the four digital vat controller panels",
+          "Overhead automatic basket-hoist rail assembly with red-handled wire baskets",
+          "Four independent color touch/button controller heads across the front",
+          "Dark tempered-glass control fascia",
+          "Casters and a filtration/oil caddy at the base"
+        ],
+        "text_features": [
+          "LOV",
+          "HENNY PENNY"
+        ]
+      }
+    },
+    {
+      "equipment_id": "EQ-GRILL-GARLAND-MW3-TOUCHSCREEN",
+      "equipment_type": "clamshell_grill",
+      "category": "Grill",
+      "manufacturer": "Garland",
+      "model": "3-Platen Clamshell Grill, Touchscreen/Product-Recognition variant (MWE3W-1/MWG3W-1 family)",
+      "display_name": "Garland 3-Platen Clamshell Grill (Touchscreen Control Version)",
+      "reference_images": [
+        {
+          "image_id": "IMG-GRILL-GARLAND-TOUCH-001",
+          "path": "data/images/EQ-GRILL-GARLAND-MW3-TOUCHSCREEN.webp",
+          "description": "Garland clamshell grill with three raised brown upper platens, a visible 'GARLAND' wordmark, green circular status indicators, and three black touchscreen displays across the lower control fascia."
+        }
+      ],
+      "identification_features": {
+        "visual_features": [
+          "'GARLAND' wordmark on the right-side control panel",
+          "Three brown clamshell upper platens, hinged fully open",
+          "Green circular indicator lights above each of the three touchscreens",
+          "Three black rectangular touchscreen control panels (no physical knobs)",
+          "Stainless grease trough and overhead exhaust baffle",
+          "Casters at base"
+        ],
+        "text_features": [
+          "GARLAND"
+        ]
+      }
+    },
+    {
+      "equipment_id": "EQ-GRILL-TAYLOR-C858-001",
+      "equipment_type": "clamshell_grill",
+      "category": "Grill",
+      "manufacturer": "Taylor",
+      "model": "C858 / C860 (Electric Clamshell Grill)",
+      "display_name": "Taylor 3-Platen Electric Clamshell Grill (C858/C860 Series)",
+      "reference_images": [
+        {
+          "image_id": "IMG-GRILL-TAYLOR-001",
+          "path": "data/images/EQ-GRILL-TAYLOR-C858-001.webp",
+          "description": "Taylor 3-well/platen electric clamshell grill on adjustable casters, featuring independent upper platens raised by a lift system, distinct touchscreen microprocessor controls, and a stainless steel frame."
+        }
+      ],
+      "identification_features": {
+        "visual_features": [
+          "Three separate cooking stations/lanes with independent upper platens",
+          "Microprocessor control panels with digital screens and indicator buttons per station",
+          "Stainless steel chassis construction with bottom storage shelf",
+          "Adjustable 5-inch swivel locking caster wheels at the base",
+          "Upper platens utilize wrap-around release material (Teflon sheets) secured with clips"
+        ],
+        "text_features": [
+          "Brand name 'TAYLOR' or 'Taylor United Technologies' visible on the equipment or control panels",
+          "Microprocessor screen displaying product names, cook times, temperatures, and gap settings",
+          "Model plate typical identification strings: Model 'C858' or 'C860'"
+        ]
+      }
+    },
+    {
+      "equipment_id": "EQ-UHC-FRYMASTER-UHCHD-003",
+      "equipment_type": "universal_holding_cabinet",
+      "category": "UHC",
+      "manufacturer": "Frymaster",
+      "model": "UHCHD",
+      "display_name": "Frymaster UHCHD Universal Holding Cabinet",
+      "reference_images": [
+        {
+          "image_id": "IMG-UHC-FRYMASTER-003",
+          "path": "data/images/EQ-UHC-FRYMASTER-UHCHD-003.webp",
+          "description": "Frymaster UHCHD holding cabinet in active use with numeric keypad controller, QR code sticker, and six slide-out drawers holding labeled Nuggets, McChick, McCrispy, Strips, Fish and Spicy Chicken product trays."
+        }
+      ],
+      "identification_features": {
+        "visual_features": [
+          "'Frymaster' wordmark on the button/keypad control fascia",
+          "Numeric keypad (1-9) with arrow/OK navigation buttons and QR code sticker",
+          "Six stainless slide-out holding drawers with perforated fronts",
+          "Color-coded product containers (green, blue, gray, yellow, red) with printed item labels"
+        ],
+        "text_features": [
+          "Frymaster",
+          "Nuggets",
+          "McChick",
+          "McCrispy",
+          "Strips",
+          "Fish",
+          "Spcy Chkn"
+        ]
+      }
+    },
+    {
+      "equipment_id": "EQ-UHC-FRYMASTER-TOUCHSCREEN",
+      "equipment_type": "universal_holding_cabinet",
+      "category": "UHC",
+      "manufacturer": "Frymaster",
+      "model": "UHC, Touchscreen Control Variant (exact model suffix not confirmed)",
+      "display_name": "Frymaster Universal Holding Cabinet (Touchscreen Control Version)",
+      "reference_images": [
+        {
+          "image_id": "IMG-UHC-FRYMASTER-TOUCH-001",
+          "path": "data/images/EQ-UHC-FRYMASTER-TOUCHSCREEN.webp",
+          "description": "Frymaster branded holding cabinet with a color touchscreen control panel (rather than a numeric keypad), power switch, and six numbered empty slide-out shelf slots (1-6) with an overhead bagging/condiment rack."
+        }
+      ],
+      "identification_features": {
+        "visual_features": [
+          "'FRYMASTER' wordmark with diamond logo on the control fascia",
+          "Color touchscreen panel (no numeric keypad)",
+          "Physical power rocker switch beside the screen",
+          "Six numbered shelf slots (1 through 6) labeled on both side rails",
+          "Overhead wire bagging/condiment caddy rack"
+        ],
+        "text_features": [
+          "FRYMASTER",
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6"
+        ]
+      }
+    },
+    {
+      "equipment_id": "EQ-STEAMER-PRINCECASTLE-625",
+      "equipment_type": "steamer",
+      "category": "Steamer",
+      "manufacturer": "Prince Castle",
+      "model": "625-Series Steamer (625-MCD/625-MFY/625-OS/625-MCDCJP family)",
+      "display_name": "Prince Castle 625-Series Steamer",
+      "reference_images": [
+        {
+          "image_id": "IMG-STEAMER-PRINCECASTLE-001",
+          "path": "data/images/EQ-STEAMER-PRINCECASTLE-625.webp",
+          "description": "Prince Castle branded countertop steamer with a hinged stainless steam chamber lid and a blue control panel featuring numbered buttons 1-4 and a green START button, plus a McDonald's arches logo."
+        }
+      ],
+      "identification_features": {
+        "visual_features": [
+          "Hinged stainless steam chamber with 'CAUTION - HOT' embossed lid and round black knob",
+          "Blue control panel with numbered buttons (1,2,3,4) and green 'START' button",
+          "McDonald's arches logo and 'Prince Castle Inc.' wordmark on the control panel",
+          "C/F temperature-unit toggle and warning icons"
+        ],
+        "text_features": [
+          "PRINCE CASTLE INC.",
+          "1",
+          "2",
+          "3",
+          "4",
+          "START",
+          "CAUTION Hot Surface"
+        ]
+      }
+    },
+    {
+      "equipment_id": "EQ-HOLDING-ANTUNES-FRYBAG",
+      "equipment_type": "fry_bag_holding_station",
+      "category": "HLZ",
+      "manufacturer": "A.J. Antunes",
+      "model": "Not confirmed (controller labeled 'Antunes')",
+      "display_name": "A.J. Antunes Fry/Bag Holding Station",
+      "reference_images": [
+        {
+          "image_id": "IMG-HOLDING-ANTUNES-001",
+          "path": "data/images/EQ-HOLDING-ANTUNES-FRYBAG.webp",
+          "description": "Overhead fry-bagging/holding station with an 'Antunes' branded digital timer controller mounted above a mirror-back canopy, wire fry rack, and a below-counter cabinet staged with McDonald's fry cartons and condiment trays."
+        }
+      ],
+      "identification_features": {
+        "visual_features": [
+          "'ANTUNES' wordmark visible on the overhead digital timer/controller box",
+          "Left/Right/Disable timer display buttons",
+          "Stainless canopy with mirror-back panel over a chrome wire fry-holding rack",
+          "Below-counter cabinet staged with McDonald's fry cartons and stainless condiment inserts"
+        ],
+        "text_features": [
+          "ANTUNES"
+        ]
+      }
+    },
+    {
+      "equipment_id": "EQ-FRYER-HENNYPENNY-LOV-002",
+      "equipment_type": "fryer",
+      "category": "Fryer",
+      "manufacturer": "Henny Penny",
+      "model": "LOV Series (LVE-200 or LVG-200, exact vat count/fuel type not confirmed)",
+      "display_name": "Henny Penny LOV Open Fryer",
+      "reference_images": [
+        {
+          "image_id": "IMG-FRYER-HENNYPENNY-002",
+          "path": "data/images/EQ-FRYER-HENNYPENNY-LOV-002.webp",
+          "description": "Henny Penny branded open fryer with 'HENNY PENNY' wordmark, overhead automatic basket-lift rails, red-handled wire baskets (one holding fries), dark tempered-glass fascia, and a three-compartment filtration drawer base."
+        }
+      ],
+      "identification_features": {
+        "visual_features": [
+          "'HENNY PENNY' wordmark on front fascia",
+          "Overhead automatic basket-hoist rail assembly",
+          "Red-handled wire fry baskets suspended over vats, one loaded with fries",
+          "Dark tempered-glass front control fascia",
+          "Three-compartment filtration drawer base with casters and a side oil-disposal caddy"
+        ],
+        "text_features": [
+          "HENNY PENNY"
+        ]
+      }
+    },
+    {
+      "equipment_id": "EQ-SHAKE-TAYLOR-C602-002",
+      "equipment_type": "soft_serve_shake_freezer",
+      "category": "Shake / Sundae",
+      "manufacturer": "Taylor",
+      "model": "C602 (Soft Serve/Shake Combination Freezer)",
+      "display_name": "Taylor C602 Soft Serve / Shake Combination Freezer",
+      "reference_images": [
+        {
+          "image_id": "IMG-SHAKE-TAYLOR-002",
+          "path": "data/images/EQ-SHAKE-TAYLOR-C602-002.webp",
+          "description": "Taylor branded soft-serve/shake freezer with clearly legible 'TAYLOR' wordmark and crown logo, digital touch display reading 'POWER SWITCH OFF', three black dispensing handles, and a syrup/topping rail with rinse cup and bowl below."
+        }
+      ],
+      "identification_features": {
+        "visual_features": [
+          "'TAYLOR' wordmark and crown logo on the control head",
+          "Circular touch-icon control ring (soft serve, shake, clean cycle icons) around a small LCD status display",
+          "Three black dispensing handles over spouts",
+          "Syrup/topping rail with rinse bowl and cup positioned below the dispensing door",
+          "Stainless steel body on casters"
+        ],
+        "text_features": [
+          "TAYLOR",
+          "POWER SWITCH OFF"
+        ]
+      }
+    },
+    {
+      "equipment_id": "EQ-COFFEE-BUNN-AXIOM-BREWWISE-002",
+      "equipment_type": "coffee_brewer",
+      "category": "Coffee / Espresso",
+      "manufacturer": "Bunn",
+      "model": "Axiom BrewWise",
+      "display_name": "Bunn Axiom BrewWise Coffee Brewer",
+      "reference_images": [
+        {
+          "image_id": "IMG-COFFEE-AXIOM-002",
+          "path": "data/images/EQ-COFFEE-BUNN-AXIOM-BREWWISE-002.webp",
+          "description": "Two side-by-side Bunn Axiom Series coffee brewers, each with a McCafe glass decanter warmer on top, digital brewer control panel, and a second McCafe decanter brewing station below."
+        }
+      ],
+      "identification_features": {
+        "visual_features": [
+          "'BUNN' wordmark with 'AXIOM SERIES' label on each unit",
+          "Digital Brewer Control display with Enable On/Off and Brew buttons",
+          "Rear/Front warmer buttons",
+          "Red 'Lift for Hot Water' handles",
+          "Twin McCafe glass decanters per unit (top warmer + brew station)"
+        ],
+        "text_features": [
+          "BUNN",
+          "AXIOM",
+          "Digital Brewer Control"
+        ]
+      }
+    },
+    {
+      "equipment_id": "EQ-COFFEE-CURTIS-GEMX-002",
+      "equipment_type": "coffee_brewer_satellite",
+      "category": "Coffee / Espresso",
+      "manufacturer": "Wilbur Curtis",
+      "model": "Gem X Satellite Brewer",
+      "display_name": "Wilbur Curtis Gem X Satellite Brewer",
+      "reference_images": [
+        {
+          "image_id": "IMG-COFFEE-GEMX-002",
+          "path": "data/images/EQ-COFFEE-CURTIS-GEMX-002.webp",
+          "description": "Curtis Gem X dual-satellite coffee brewer with McCafe branded thermal servers, positioned next to a SureShot sweetener dispenser and a Curtis ALPHA decanter brewer."
+        }
+      ],
+      "identification_features": {
+        "visual_features": [
+          "'Curtis' and 'GEM X' logos on the brew head",
+          "McCafe branding on twin satellite thermal servers labeled with cup-count fill lines",
+          "Dual dispensing spouts with red 'HOT WATER' safety-lock tag",
+          "Stainless dispensing legs/feet"
+        ],
+        "text_features": [
+          "Curtis",
+          "GEM X",
+          "McCafe"
+        ]
+      }
+    },
+    {
+      "equipment_id": "EQ-COFFEE-MELITTA-CAFINA-CT8-002",
+      "equipment_type": "espresso_machine",
+      "category": "Coffee / Espresso",
+      "manufacturer": "Melitta",
+      "model": "Cafina CT8",
+      "display_name": "Melitta Cafina CT8 Espresso Machine",
+      "reference_images": [
+        {
+          "image_id": "IMG-COFFEE-MELITTA-CT8-002",
+          "path": "data/images/EQ-COFFEE-MELITTA-CAFINA-CT8-002.webp",
+          "description": "Melitta branded espresso machine with a large touchscreen display reading 'Cafina CT8', twin bean/ingredient hoppers on top, a McCafe bean bag staged beside it, and a cup dispenser column to the right."
+        }
+      ],
+      "identification_features": {
+        "visual_features": [
+          "'Melitta' wordmark on the touchscreen bezel",
+          "Large color touchscreen reading 'Cafina CT8'",
+          "Twin clear bean/ingredient hoppers mounted on top",
+          "HACCP/hazard warning label stack on the front housing",
+          "Column of stacked cup dispensers beside the machine",
+          "McCafe-branded coffee bean bag staged on top"
+        ],
+        "text_features": [
+          "Melitta",
+          "Cafina CT8",
+          "HACCP",
+          "INSPECTED BY"
+        ]
+      }
+    },
+    {
+      "equipment_id": "EQ-ABS-CORNELIUS-ABS-003",
+      "equipment_type": "automated_beverage_system",
+      "category": "ABS",
+      "manufacturer": "IMI Cornelius",
+      "model": "ABS",
+      "display_name": "IMI Cornelius ABS Automated Beverage System",
+      "reference_images": [
+        {
+          "image_id": "IMG-ABS-CORNELIUS-003",
+          "path": "data/images/EQ-ABS-CORNELIUS-ABS-003.webp",
+          "description": "Cornelius ABS dispensing tower with 'ABS' instruction placard, vertical cup-tube dispensers, membrane keypad (Coca-Cola, Coke, Fanta, Water, Soda), and a circular drip-tray carousel loaded with black portion cups."
+        }
+      ],
+      "identification_features": {
+        "visual_features": [
+          "'ABS' instruction placard at top of unit",
+          "Row of vertical cup-tube dispensers above the keypad",
+          "Membrane keypad with brand-labeled drink buttons and Manual/Auto, Silence Alarm, No Ice, Extra Ice, Enter controls",
+          "Circular drip-tray carousel with black portion cups below the dispensing head"
+        ],
+        "text_features": [
+          "ABS",
+          "AUTOMATED BEVERAGE SYSTEM",
+          "Remove and Clean Daily / Quite y Limpie Diariamente",
+          "Do Not Overfill Cup Tubes"
+        ]
+      }
+    },
+    {
+      "equipment_id": "EQ-OVEN-BLODGETT-BLCT6E-MCD",
+      "equipment_type": "combi_oven",
+      "category": "Oven",
+      "manufacturer": "Blodgett",
+      "model": "BLCT-6E-MCD (mini boilerless electric combi oven, McDonald's-specific configuration)",
+      "display_name": "Blodgett BLCT-6E-MCD Combi Oven",
+      "reference_images": [
+        {
+          "image_id": "IMG-OVEN-BLODGETT-001",
+          "path": "data/images/EQ-OVEN-BLODGETT-BLCT6E-MCD.webp",
+          "description": "Right-hand unit: Blodgett branded combi oven with glass door and touch control panel, topped by a black 'Hoodini' ventless exhaust hood. Left-hand unit (same photo): a Convotherm easyTouch combi oven with a Halton exhaust hood, both mounted over a stainless prep table and refrigerated drawer base."
+        }
+      ],
+      "identification_features": {
+        "visual_features": [
+          "'BLODGETT' wordmark on the oven's control fascia",
+          "Black ventless exhaust hood (Hoodini-branded) mounted above the oven",
+          "Glass oven door with interior wire shelf racking and door-mounted drip tray",
+          "Round control knob and touch controller",
+          "Companion Convotherm easyTouch combi oven (with red 'C' logo and Halton hood) mounted to its left on the same prep stand"
+        ],
+        "text_features": [
+          "BLODGETT",
+          "Halton (on companion unit)",
+          "easyTouch (on companion unit)"
+        ]
+      }
+    },
+    {
+      "equipment_id": "EQ-COFFEE-BUNN-INFUSION-SATELLITE",
+      "equipment_type": "coffee_brewer_satellite",
+      "category": "Coffee / Espresso",
+      "manufacturer": "Bunn",
+      "model": "Infusion Series Satellite Brewer",
+      "display_name": "Bunn Infusion Series Satellite Brewer",
+      "reference_images": [
+        {
+          "image_id": "IMG-COFFEE-BUNN-INFUSION-001",
+          "path": "data/images/EQ-COFFEE-BUNN-INFUSION-SATELLITE.webp",
+          "description": "Bunn Infusion Series satellite coffee/iced tea brewer with yellow brew funnel and digital control panel."
+        }
+      ],
+      "identification_features": {
+        "visual_features": [
+          "Bunn branding on control panel",
+          "Yellow brew funnel/hopper",
+          "Digital Infusion Series control panel with colored buttons",
+          "Tall stainless steel tower body",
+          "Blue pitcher hanging alongside for iced tea/coffee"
+        ],
+        "text_features": [
+          "BUNN",
+          "INFUSION SERIES",
+          "ADD A FULL PITCHER OF ICE BEFORE BREWING ICED TEA OR ICED COFFEE"
+        ]
+      }
+    },
+    {
+      "equipment_id": "EQ-CREAMDISP-SURESHOT-AC110PC51",
+      "equipment_type": "cream_dispenser",
+      "category": "Cream Dispenser",
+      "manufacturer": "SureShot",
+      "model": "AC110-PC-51",
+      "display_name": "SureShot AC110-PC-51 IntelliShot Refrigerated Dairy Dispenser",
+      "reference_images": [
+        {
+          "image_id": "IMG-CREAMDISP-AC110-001",
+          "path": "data/images/EQ-CREAMDISP-SURESHOT-AC110PC51.webp",
+          "description": "SureShot Solutions branded refrigerated liquid dispenser with 3 push-button portion selectors and small LCD display."
+        }
+      ],
+      "identification_features": {
+        "visual_features": [
+          "SureShot Solutions logo top-right",
+          "Pink/red backlit McDonald's arches panel",
+          "3 numbered portion buttons (1,2,3)",
+          "Small LCD readout above buttons",
+          "Stainless steel cabinet with drip tray base"
+        ],
+        "text_features": [
+          "SURESHOT SOLUTIONS",
+          "Iced Coffee MD",
+          "Iced Coffee 1/2"
+        ]
+      }
+    },
+    {
+      "equipment_id": "EQ-HOTWATER-BUNN-TOWER",
+      "equipment_type": "hot_water_dispenser",
+      "category": "Hot Water",
+      "manufacturer": "Bunn",
+      "model": "Hot Water System (Tower)",
+      "display_name": "Bunn Hot Water System",
+      "reference_images": [
+        {
+          "image_id": "IMG-HOTWATER-BUNN-001",
+          "path": "data/images/EQ-HOTWATER-BUNN-TOWER.webp",
+          "description": "Bunn branded hot water tower with red spigot handle, mounted next to a satellite coffee brewer."
+        }
+      ],
+      "identification_features": {
+        "visual_features": [
+          "Bunn logo on stainless tower",
+          "Red-handled water faucet",
+          "Black plastic base/drip tray",
+          "Brewing instruction card mounted above unit"
+        ],
+        "text_features": [
+          "BUNN",
+          "HOT WATER SYSTEM",
+          "WARNING Hot Water Use With Care"
+        ]
+      }
+    },
+    {
+      "equipment_id": "EQ-COFFEE-VIKING-SATELLITE-UNCONFIRMED",
+      "equipment_type": "coffee_brewer_satellite",
+      "category": "Coffee / Espresso",
+      "manufacturer": "Viking",
+      "model": "Unknown / Not confirmed",
+      "display_name": "Viking-branded Coffee Satellite Dispenser (model unconfirmed)",
+      "reference_images": [
+        {
+          "image_id": "IMG-COFFEE-VIKING-001",
+          "path": "data/images/EQ-COFFEE-VIKING-SATELLITE-UNCONFIRMED.webp",
+          "description": "Stainless satellite coffee dispenser with Viking-labeled control panel showing 1/S, 2/M, 3/L size buttons; Ithaca 9000 receipt printer sits on top (not part of this unit)."
+        }
+      ],
+      "identification_features": {
+        "visual_features": [
+          "Viking wordmark on control panel",
+          "Buttons labeled 1/S, 2/M, 3/L and SP",
+          "Stainless steel satellite tower body with access panel",
+          "Drip tray area at base"
+        ],
+        "text_features": [
+          "Viking",
+          "1/S",
+          "2/M",
+          "3/L",
+          "SP"
+        ]
+      }
+    },
+    {
+      "equipment_id": "EQ-SWEETENER-SURESHOT-AC2GP30",
+      "equipment_type": "sweetener_sugar_dispenser",
+      "category": "Cream Dispenser",
+      "manufacturer": "SureShot",
+      "model": "AC2-GP-30",
+      "display_name": "SureShot AC2-GP-30 Multi-Sweetener Dispenser",
+      "reference_images": [
+        {
+          "image_id": "IMG-SWEETENER-AC2GP30-001",
+          "path": "data/images/EQ-SWEETENER-SURESHOT-AC2GP30.webp",
+          "description": "Tall narrow SureShot dispenser with sweetener/sugar buttons (1,2,3 per side) and QR sticker reading 'AC2-GP-30'."
+        }
+      ],
+      "identification_features": {
+        "visual_features": [
+          "Narrow vertical stainless column",
+          "Red/pink McDonald's arches display panel",
+          "Sweetener (left) and Sugar (right) button labels",
+          "QR code sticker on lower cabinet reading SureShot AC2-GP-30",
+          "Perforated drip tray at base"
+        ],
+        "text_features": [
+          "SURESHOT",
+          "AC2-GP-30",
+          "sweetener/edulcorante",
+          "sugar/az\u00facar"
+        ]
+      }
+    },
+    {
+      "equipment_id": "EQ-COFFEE-CURTIS-ALPHA-ALP3GT",
+      "equipment_type": "coffee_brewer",
+      "category": "Coffee / Espresso",
+      "manufacturer": "Wilbur Curtis",
+      "model": "ALPHA (ALP3GT15A826)",
+      "display_name": "Wilbur Curtis ALPHA (ALP3GT15A826) Coffee Brewer",
+      "reference_images": [
+        {
+          "image_id": "IMG-COFFEE-ALPHA-001",
+          "path": "data/images/EQ-COFFEE-CURTIS-ALPHA-ALP3GT.webp",
+          "description": "Curtis ALP3GT decanter brewer with McCafe glass decanter, Gold Cup Series badge and QR service sticker."
+        }
+      ],
+      "identification_features": {
+        "visual_features": [
+          "Curtis logo and 'ALP3GT' label on control head",
+          "'The Gold Cup Series' badge",
+          "Warmer buttons: Bottom / Front / Rear / Brew",
+          "Glass McCafe decanter",
+          "Red 'Lift for Hot Water' handle"
+        ],
+        "text_features": [
+          "Curtis",
+          "ALP3GT",
+          "THE GOLD CUP SERIES",
+          "Wilbur Curtis Co., Inc."
+        ]
+      }
+    },
+    {
+      "equipment_id": "EQ-REFRIG-TRUE-REACHIN",
+      "equipment_type": "reach_in_refrigerator",
+      "category": "Refrigeration",
+      "manufacturer": "True Manufacturing",
+      "model": "Reach-In Refrigerator/Freezer (specific model not visible)",
+      "display_name": "True Reach-In Refrigerator/Freezer",
+      "reference_images": [
+        {
+          "image_id": "IMG-REFRIG-TRUE-001",
+          "path": "data/images/EQ-REFRIG-TRUE-REACHIN.webp",
+          "description": "True branded single-door stainless reach-in refrigerator with louvered top condenser housing and digital temperature display."
+        }
+      ],
+      "identification_features": {
+        "visual_features": [
+          "True script logo on louvered top housing",
+          "Digital temperature display (reading 3\u00b0F)",
+          "Single solid stainless door with recessed handle",
+          "ENERGY STAR / QR service sticker on door"
+        ],
+        "text_features": [
+          "True",
+          "ENERGY STAR"
+        ]
+      }
+    },
+    {
+      "equipment_id": "EQ-FRYER-FRYMASTER-BIELA-REAR",
+      "equipment_type": "fryer",
+      "category": "Fryer",
+      "manufacturer": "Frymaster",
+      "model": "BIELA / BIGLA Series (built-in filtration, rear view)",
+      "display_name": "Frymaster Fryer with Built-In Filtration (rear view)",
+      "reference_images": [
+        {
+          "image_id": "IMG-FRYER-FRYMASTER-REAR-001",
+          "path": "data/images/EQ-FRYER-FRYMASTER-BIELA-REAR.webp",
+          "description": "Rear view of a Frymaster fryer showing dual digital controller heads on top and a pull-out oil filtration/basket storage drawer below with fry baskets."
+        }
+      ],
+      "identification_features": {
+        "visual_features": [
+          "Twin digital vat controllers with green LCD readouts on top deck",
+          "Tall stainless vat housing",
+          "Pull-out lower filtration drawer with wire fry baskets stored inside",
+          "Casters for mobility"
+        ],
+        "text_features": [
+          "(digital controller readouts, no manufacturer wordmark visible in this rear-facing shot)"
+        ]
+      }
+    },
+    {
+      "equipment_id": "EQ-REFRIG-BEVAIR-UNDERCOUNTER",
+      "equipment_type": "undercounter_refrigerator",
+      "category": "Refrigeration",
+      "manufacturer": "Beverage-Air",
+      "model": "Undercounter Refrigerator (specific model not visible)",
+      "display_name": "Beverage-Air Undercounter Refrigerator",
+      "reference_images": [
+        {
+          "image_id": "IMG-REFRIG-BEVAIR-001",
+          "path": "data/images/EQ-REFRIG-BEVAIR-UNDERCOUNTER.webp",
+          "description": "Two-door stainless steel undercounter refrigerator with Beverage-Air badge on the top right door."
+        }
+      ],
+      "identification_features": {
+        "visual_features": [
+          "'BEVERAGE-AIR' wordmark badge on door",
+          "Two hinged doors with black handles",
+          "Stainless steel worktop surface",
+          "Ventilation louvers at base of doors"
+        ],
+        "text_features": [
+          "BEVERAGE-AIR"
+        ]
+      }
+    },
+    {
+      "equipment_id": "EQ-UHC-PRINCECASTLE-UHC6PT22MCD",
+      "equipment_type": "universal_holding_cabinet",
+      "category": "UHC",
+      "manufacturer": "Prince Castle",
+      "model": "UHC6PT-22MCD",
+      "display_name": "Prince Castle UHC6PT-22MCD Universal Holding Cabinet",
+      "reference_images": [
+        {
+          "image_id": "IMG-UHC-PRINCECASTLE-001",
+          "path": "data/images/EQ-UHC-PRINCECASTLE-UHC6PT22MCD.webp",
+          "description": "Prince Castle UHC touchscreen-controlled holding cabinet with 6 numbered shelf slots (1-6) and overhead bagging/condiment rack."
+        }
+      ],
+      "identification_features": {
+        "visual_features": [
+          "Color touchscreen control panel on top fascia",
+          "Six numbered shelf slots (1 through 6) labeled on both side rails",
+          "Dark tempered-glass shelf fronts",
+          "Overhead wire bagging/condiment caddy rack",
+          "Casters/legs at base"
+        ],
+        "text_features": [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6"
+        ]
+      }
+    },
+    {
+      "equipment_id": "EQ-OVEN-CONVOTHERM-EASYTOUCH",
+      "equipment_type": "combi_oven",
+      "category": "Oven",
+      "manufacturer": "Convotherm",
+      "model": "easyTouch Combi Oven",
+      "display_name": "Convotherm easyTouch Combi Oven",
+      "reference_images": [
+        {
+          "image_id": "IMG-OVEN-CONVOTHERM-001",
+          "path": "data/images/EQ-OVEN-CONVOTHERM-EASYTOUCH.webp",
+          "description": "Convotherm easyTouch combi oven with glass door, wire shelf racks, and an integrated Halton ventless-style exhaust hood mounted above."
+        }
+      ],
+      "identification_features": {
+        "visual_features": [
+          "Red 'C' Convotherm logo on door",
+          "'easyTouch' touchscreen control panel",
+          "'Halton' badge on the overhead exhaust hood",
+          "Glass oven door with interior wire shelf racking",
+          "Rotary door handle"
+        ],
+        "text_features": [
+          "Convotherm",
+          "easyTouch",
+          "Halton"
+        ]
+      }
+    },
+    {
+      "equipment_id": "EQ-BLENDEDICE-MULTIPLEX-MS8",
+      "equipment_type": "blended_ice_beverage_dispenser",
+      "category": "Blended Ice",
+      "manufacturer": "Multiplex",
+      "model": "MS-8",
+      "display_name": "Multiplex MS-8 Blended Ice Machine",
+      "reference_images": [
+        {
+          "image_id": "IMG-BLENDEDICE-MULTIPLEX-001",
+          "path": "data/images/EQ-BLENDEDICE-MULTIPLEX-MS8.webp",
+          "description": "Multiplex branded blended-ice/frappe dispensing unit with central touchscreen, twin flavor hoppers, cup dispensers, and an under-counter base labeled 'Multiplex' with pull-out drawer and basket."
+        }
+      ],
+      "identification_features": {
+        "visual_features": [
+          "'Multiplex' wordmark on the front of the base cabinet",
+          "Central color touchscreen control panel",
+          "Twin clear flavor/mix hoppers flanking the touchscreen",
+          "Cup dispenser tubes mounted above each hopper",
+          "Pull-out stainless drawer with rinse cups and wire basket at the base"
+        ],
+        "text_features": [
+          "Multiplex"
+        ]
+      }
+    },
+    {
+      "equipment_id": "EQ-OJDISP-TAYLOR-C009",
+      "equipment_type": "juice_cold_brew_dispenser",
+      "category": "OJ Dispenser",
+      "manufacturer": "Taylor",
+      "model": "C009",
+      "display_name": "Taylor C009 Orange Juice / Cold Brew Dispenser",
+      "reference_images": [
+        {
+          "image_id": "IMG-OJDISP-TAYLOR-001",
+          "path": "data/images/EQ-OJDISP-TAYLOR-C009.webp",
+          "description": "Taylor branded dual dispenser tower labeled 'Orange Juice' and 'Cold Brew' with portion-size buttons on each side and a QR service sticker reading tcmcd.co/C009."
+        }
+      ],
+      "identification_features": {
+        "visual_features": [
+          "'TAYLOR' wordmark and QR sticker on the upper stainless cabinet",
+          "Two dispensing spouts (left/right) over a wire drip grate",
+          "Portion-size selector buttons (12oz/16oz/X and 16oz/22oz/X) on each side",
+          "Product name labels 'Orange Juice' (left, orange tag) and 'Cold Brew' (right, dark tag)"
+        ],
+        "text_features": [
+          "TAYLOR",
+          "AUTHORIZED PERSONNEL ONLY",
+          "http://TCMCD.CO/C009",
+          "Orange Juice",
+          "Cold Brew"
+        ]
+      }
+    }
+  ]
+}

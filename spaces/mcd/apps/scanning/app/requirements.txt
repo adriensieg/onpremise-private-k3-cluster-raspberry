@@ -1,4 +1,12 @@
-fastapi==0.115.0
-uvicorn[standard]==0.30.6
-jinja2==3.1.4
-python-multipart==0.0.9
+fastapi>=0.115
+uvicorn[standard]>=0.32
+jinja2>=3.1
+pydantic>=2.9
+python-dotenv>=1.0
+
+google-genai>=1.0          # the only external service - API key auth
+
+pillow>=10.4
+pillow-heif>=0.18       # iPhone .heic
+
+# pymupdf>=1.24.3       # only for data/build_catalog.py - not a runtime dependency
