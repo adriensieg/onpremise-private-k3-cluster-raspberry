@@ -19,7 +19,7 @@ spec:
         - name: ghcr-secret
       containers:
         - name: hello
-          image: ghcr.io/adriensieg/mcd-hello:bfa536261a385432f855fceeedfe4420d3f5903d
+          image: ghcr.io/adriensieg/mcd-hello:da922789d7a013d6324b4fb2aafabed5e6e72bb0
           imagePullPolicy: Always
           ports:
             - containerPort: 8000
