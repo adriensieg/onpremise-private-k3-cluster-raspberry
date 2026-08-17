@@ -19,7 +19,7 @@ spec:
         - name: ghcr-secret
       containers:
         - name: scanning
-          image: ghcr.io/adriensieg/mcd-scanning:9175e6445db48c6fe01df32d3c9ba367810517fa
+          image: ghcr.io/adriensieg/mcd-scanning:0a45d10455680d328097b53302334945d0bf850a
           imagePullPolicy: Always
           ports:
             - containerPort: 8000
