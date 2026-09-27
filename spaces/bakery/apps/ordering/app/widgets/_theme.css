@@ -1,0 +1,217 @@
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Instrument+Sans:wght@400;500;600&display=swap');
+
+/* ============================================================
+   Maison Levain — shared widget theme
+   One signature move (arched vitrine niches), everything else quiet.
+   Pistachio is the only action color; framboise is emphasis only.
+   ============================================================ */
+
+:root {
+  color-scheme: light dark;
+
+  --paper:        #F3ECE3;
+  --sugar:        #FFFDF9;
+  --sugar-sunk:   #F7F0E7;
+  --ink:          #33251C;
+  --ink-soft:     #7A6555;
+  --line:         #E7D9C8;
+
+  --pistachio:      #6E7F3F;
+  --pistachio-deep: #556231;
+  --on-pistachio:   #FBFCF4;
+  --framboise:      #B23A5B;
+  --caramel:        #A9701F;
+
+  /* Pastry illustration palette (food colors read fine on both themes). */
+  --dough:      #E4AC5C;
+  --dough-edge: #C68C38;
+  --choc:       #593827;
+  --cream:      #F7EAD1;
+  --glaze:      #6E4A31;
+  --sugar-dot:  #FCF4E4;
+  --niche:      #F7EDDE;
+  --niche-edge: #ECDDC8;
+
+  --radius:  16px;
+  --radius-s: 10px;
+  --shadow:  0 1px 0 rgba(51,37,28,.04), 0 10px 24px -18px rgba(51,37,28,.45);
+
+  --serif: 'Fraunces', 'Hoefler Text', Georgia, 'Times New Roman', serif;
+  --sans:  'Instrument Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+}
+
+:root[data-theme='dark'] {
+  --paper:      #1E1712;
+  --sugar:      #2A211A;
+  --sugar-sunk: #241C15;
+  --ink:        #F4EADF;
+  --ink-soft:   #BBA997;
+  --line:       #3B2E24;
+
+  --pistachio:      #A7BA66;
+  --pistachio-deep: #BECD85;
+  --on-pistachio:   #1B1A10;
+  --framboise:      #E6819A;
+  --caramel:        #DCA556;
+
+  --cream:      #EAD9BC;
+  --niche:      #241C15;
+  --niche-edge: #34281E;
+  --shadow:     0 10px 30px -20px rgba(0,0,0,.8);
+}
+
+* { box-sizing: border-box; }
+
+html, body { margin: 0; }
+
+body {
+  font-family: var(--sans);
+  color: var(--ink);
+  background: transparent;                 /* sit inside the ChatGPT frame */
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  line-height: 1.45;
+}
+
+.app {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 18px;
+  background: var(--paper);
+  border-radius: var(--radius);
+}
+
+/* -- header / wordmark ------------------------------------------------ */
+
+.top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.wordmark {
+  font-family: var(--serif);
+  font-optical-sizing: auto;
+  font-weight: 600;
+  font-size: 22px;
+  letter-spacing: -.01em;
+  line-height: 1.05;
+  margin: 0;
+}
+
+.wordmark small {
+  display: block;
+  font-family: var(--sans);
+  font-weight: 500;
+  font-size: 12.5px;
+  color: var(--ink-soft);
+  letter-spacing: 0;
+  margin-top: 3px;
+}
+
+/* -- cart pill (header badge) ----------------------------------------- */
+
+.cart-pill {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--sugar);
+  color: var(--ink);
+  font-size: 13.5px;
+  font-weight: 500;
+  box-shadow: var(--shadow);
+}
+
+.cart-pill .basket { font-size: 15px; line-height: 1; }
+.cart-pill .count {
+  min-width: 18px;
+  text-align: center;
+  color: var(--pistachio-deep);
+  font-weight: 600;
+}
+.cart-pill .dot { color: var(--line); }
+.cart-pill.bump { animation: bump .32s ease; }
+
+@keyframes bump {
+  30% { transform: scale(1.09); }
+  100% { transform: scale(1); }
+}
+
+/* -- arched vitrine niche (the signature) ----------------------------- */
+
+.niche {
+  position: relative;
+  aspect-ratio: 5 / 4;
+  border-radius: 999px 999px var(--radius-s) var(--radius-s);
+  background:
+    radial-gradient(120% 90% at 50% 20%, var(--niche) 0%, var(--niche-edge) 100%);
+  border: 1px solid var(--niche-edge);
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+}
+
+.niche svg { width: 68%; height: 68%; display: block; }
+
+/* -- buttons ---------------------------------------------------------- */
+
+.btn {
+  font-family: var(--sans);
+  font-weight: 600;
+  font-size: 14px;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  padding: 9px 16px;
+  cursor: pointer;
+  transition: transform .12s ease, background-color .15s ease, border-color .15s ease;
+}
+.btn:active { transform: translateY(1px) scale(.99); }
+
+.btn--primary { background: var(--pistachio); color: var(--on-pistachio); }
+.btn--primary:hover { background: var(--pistachio-deep); }
+
+.btn--ghost {
+  background: transparent;
+  color: var(--ink);
+  border-color: var(--line);
+}
+.btn--ghost:hover { border-color: var(--ink-soft); }
+
+.btn--block { display: block; width: 100%; text-align: center; padding: 14px 16px; font-size: 15px; }
+
+.btn:focus-visible,
+.stepper button:focus-visible,
+.link:focus-visible {
+  outline: 2px solid var(--pistachio);
+  outline-offset: 2px;
+}
+
+/* -- misc ------------------------------------------------------------- */
+
+.price { color: var(--caramel); font-weight: 600; font-variant-numeric: tabular-nums; }
+
+.link {
+  background: none; border: 0; padding: 0; cursor: pointer;
+  color: var(--pistachio-deep); font: inherit; font-weight: 600;
+}
+.link:hover { text-decoration: underline; }
+
+.notice {
+  margin: 0 0 12px;
+  padding: 10px 12px;
+  border-radius: var(--radius-s);
+  background: color-mix(in srgb, var(--framboise) 12%, var(--sugar));
+  border: 1px solid color-mix(in srgb, var(--framboise) 35%, var(--line));
+  color: var(--ink);
+  font-size: 13.5px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { animation: none !important; transition: none !important; }
+}

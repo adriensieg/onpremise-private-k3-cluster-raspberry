@@ -1,0 +1,29 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: bakery-ingress
+  namespace: bakery
+  annotations:
+    # MCP Streamable HTTP keeps a long-lived GET/SSE stream open. NGINX buffers
+    # and short timeouts would break it, so disable buffering and raise timeouts.
+    nginx.ingress.kubernetes.io/proxy-buffering: "off"
+    nginx.ingress.kubernetes.io/proxy-request-buffering: "off"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: bakery.devailab.work
+      http:
+        paths:
+          # The app serves the info page, /healthz, and the MCP endpoint at /mcp.
+          # A single root rule forwards everything to the service.
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: bakery-ordering
+                port:
+                  number: 80
+# No tls block: Cloudflare terminates TLS at the edge and the tunnel reaches
+# NGINX over plain HTTP inside the cluster.

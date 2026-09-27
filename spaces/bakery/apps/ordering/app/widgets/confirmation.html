@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Maison Levain — Order confirmed</title>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <style>
+    {{THEME_CSS}}
+
+    .ticket {
+      background: var(--sugar);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+    .ticket .head {
+      text-align: center;
+      padding: 26px 20px 20px;
+      border-bottom: 1px dashed var(--line);
+      position: relative;
+    }
+    .seal {
+      width: 54px;
+      height: 54px;
+      margin: 0 auto 12px;
+      border-radius: 999px;
+      background: var(--pistachio);
+      color: var(--on-pistachio);
+      display: grid;
+      place-items: center;
+      font-size: 27px;
+      box-shadow: 0 8px 20px -10px color-mix(in srgb, var(--pistachio) 70%, transparent);
+    }
+    .seal.pop { animation: pop .4s ease; }
+    @keyframes pop {
+      0% { transform: scale(.5); opacity: 0; }
+      60% { transform: scale(1.08); }
+      100% { transform: scale(1); opacity: 1; }
+    }
+    .ticket .head h1 {
+      font-family: var(--serif);
+      font-optical-sizing: auto;
+      font-weight: 600;
+      font-size: 22px;
+      letter-spacing: -.01em;
+      margin: 0 0 4px;
+    }
+    .ticket .head .sub { color: var(--ink-soft); font-size: 13.5px; }
+    .ticket .head .sub b { color: var(--ink); font-weight: 600; }
+
+    .facts {
+      display: flex;
+      justify-content: center;
+      gap: 22px;
+      flex-wrap: wrap;
+      padding: 13px 20px 0;
+    }
+    .fact { text-align: center; }
+    .fact .k { font-size: 11px; text-transform: uppercase; letter-spacing: .06em; color: var(--ink-soft); }
+    .fact .v { font-family: var(--serif); font-weight: 600; font-size: 15px; margin-top: 2px; }
+
+    .receipt { padding: 16px 20px 4px; }
+    .rline {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 7px 0;
+      border-bottom: 1px solid color-mix(in srgb, var(--line) 60%, transparent);
+    }
+    .rline .name { font-size: 14px; }
+    .rline .name .q { color: var(--ink-soft); font-variant-numeric: tabular-nums; }
+    .rline .amt { font-variant-numeric: tabular-nums; color: var(--ink); }
+    .rtotal {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      padding: 14px 20px 20px;
+    }
+    .rtotal .label { font-size: 14px; color: var(--ink-soft); }
+    .rtotal .grand {
+      font-family: var(--serif);
+      font-weight: 600;
+      font-size: 23px;
+      color: var(--caramel);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .after { text-align: center; margin-top: 16px; }
+    .after .link { font-size: 14px; }
+  </style>
+</head>
+<body>
+  <main class="app" id="root"></main>
+
+  <script>{{BRIDGE_JS}}</script>
+  <script>
+    (function () {
+      var esc = Bakery.escapeHtml;
+
+      function fact(k, v) {
+        return '<div class="fact"><div class="k">' + esc(k) + '</div><div class="v">' + esc(v) + '</div></div>';
+      }
+
+      function receiptLine(item) {
+        return '<div class="rline">' +
+          '<span class="name">' + esc(item.name) +
+            ' <span class="q">×' + item.quantity + '</span></span>' +
+          '<span class="amt">' + esc(item.line_total) + '</span>' +
+        '</div>';
+      }
+
+      function render(data) {
+        var order = data.order || {};
+        var items = order.items || [];
+        var root = document.getElementById('root');
+
+        var facts = '';
+        if (order.number) facts += fact('Order', order.number);
+        if (order.customer_name) facts += fact('Name', order.customer_name);
+        facts += fact('Pickup', order.pickup_time || 'Ready in ~15 min');
+
+        root.innerHTML =
+          '<div class="ticket">' +
+            '<div class="head">' +
+              '<div class="seal pop" aria-hidden="true">✓</div>' +
+              '<h1>Order ' + esc(order.number || '') + ' is in</h1>' +
+              '<div class="sub">Thank you — we\'re boxing up <b>' +
+                (order.item_count || items.length) + '</b> item' +
+                ((order.item_count || items.length) === 1 ? '' : 's') + ' at <b>Maison Levain</b>.</div>' +
+              '<div class="facts">' + facts + '</div>' +
+            '</div>' +
+            '<div class="receipt">' + items.map(receiptLine).join('') + '</div>' +
+            '<div class="rtotal">' +
+              '<span class="label">Paid at pickup</span>' +
+              '<span class="grand">' + esc(order.total || '') + '</span>' +
+            '</div>' +
+          '</div>' +
+          '<div class="after">' +
+            '<button class="link" id="again">Start another order →</button>' +
+          '</div>';
+
+        var again = document.getElementById('again');
+        if (again) again.addEventListener('click', function () {
+          Bakery.sendMessage('Show me the bakery menu');
+        });
+      }
+
+      Bakery.boot(render);
+    })();
+  </script>
+</body>
+</html>

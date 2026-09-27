@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Maison Levain — Counter</title>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <style>
+    {{THEME_CSS}}
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(158px, 1fr));
+      gap: 14px;
+    }
+    .card {
+      display: flex;
+      flex-direction: column;
+      background: var(--sugar);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 10px;
+      box-shadow: var(--shadow);
+    }
+    .card .niche { margin-bottom: 11px; }
+    .card .emoji { font-size: 40px; }
+    .card h3 {
+      font-family: var(--serif);
+      font-optical-sizing: auto;
+      font-weight: 600;
+      font-size: 16.5px;
+      margin: 0 0 3px;
+      letter-spacing: -.005em;
+    }
+    .card p {
+      margin: 0 0 12px;
+      font-size: 12.7px;
+      color: var(--ink-soft);
+      line-height: 1.4;
+    }
+    .card .foot {
+      margin-top: auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+    .card .price { font-size: 15px; }
+    .add { padding: 8px 14px; }
+    .add.done { background: var(--pistachio-deep); }
+  </style>
+</head>
+<body>
+  <main class="app" id="root"></main>
+
+  <script>{{BRIDGE_JS}}</script>
+  <script>
+    (function () {
+      var esc = Bakery.escapeHtml;
+
+      function cartPill(cart) {
+        var count = (cart && cart.count) || 0;
+        var total = (cart && cart.total) || '';
+        if (!count) {
+          return '<span class="cart-pill" id="cartPill"><span class="basket">🧺</span> Cart empty</span>';
+        }
+        return '<span class="cart-pill" id="cartPill">' +
+          '<span class="basket">🧺</span>' +
+          '<span class="count">' + count + '</span>' +
+          '<span class="dot">·</span>' +
+          '<span class="price">' + esc(total) + '</span></span>';
+      }
+
+      function cardHtml(p) {
+        return '<article class="card">' +
+          '<div class="niche">' + Bakery.pastrySvg(p.shape, p.emoji) + '</div>' +
+          '<h3>' + esc(p.name) + '</h3>' +
+          '<p>' + esc(p.description) + '</p>' +
+          '<div class="foot">' +
+            '<span class="price">' + esc(p.price) + '</span>' +
+            '<button class="btn btn--primary add" data-id="' + esc(p.id) + '" data-name="' + esc(p.name) + '">Add</button>' +
+          '</div>' +
+        '</article>';
+      }
+
+      function render(data) {
+        var products = data.products || [];
+        var heading = data.heading || 'Today at the counter';
+        var root = document.getElementById('root');
+
+        root.innerHTML =
+          '<header class="top">' +
+            '<h1 class="wordmark">Maison Levain<small>' + esc(heading) + '</small></h1>' +
+            cartPill(data.cart) +
+          '</header>' +
+          '<div class="grid">' + products.map(cardHtml).join('') + '</div>';
+
+        root.querySelectorAll('.add').forEach(function (btn) {
+          btn.addEventListener('click', function () { onAdd(btn); });
+        });
+      }
+
+      function onAdd(btn) {
+        var id = btn.getAttribute('data-id');
+        btn.disabled = true;
+        Bakery.callTool('add_to_cart', { product_id: id, quantity: 1 })
+          .then(function (result) {
+            updatePill(result && result.cart);
+            btn.textContent = 'Added';
+            btn.classList.add('done');
+            setTimeout(function () {
+              btn.textContent = 'Add';
+              btn.classList.remove('done');
+              btn.disabled = false;
+            }, 1100);
+          })
+          .catch(function () {
+            btn.disabled = false;
+          });
+      }
+
+      function updatePill(cart) {
+        var old = document.getElementById('cartPill');
+        if (!old) return;
+        var wrap = document.createElement('div');
+        wrap.innerHTML = cartPill(cart);
+        var fresh = wrap.firstChild;
+        old.replaceWith(fresh);
+        fresh.classList.add('bump');
+      }
+
+      Bakery.boot(render);
+    })();
+  </script>
+</body>
+</html>

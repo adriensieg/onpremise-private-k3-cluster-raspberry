@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: bakery-ordering
+  namespace: bakery
+  labels:
+    app: bakery-ordering
+    space: bakery
+spec:
+  type: ClusterIP
+  selector:
+    app: bakery-ordering
+  ports:
+    - name: http
+      port: 80
+      targetPort: http   # -> container port 8000
+      protocol: TCP

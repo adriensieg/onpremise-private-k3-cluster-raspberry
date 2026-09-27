@@ -1,0 +1,69 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bakery-ordering
+  namespace: bakery
+  labels:
+    app: bakery-ordering
+    space: bakery
+spec:
+  # MUST stay at 1. Carts and order numbers are kept in process memory
+  # (app/mcp/runtime.py), so a second replica would split sessions and lose
+  # state. Recreate (not RollingUpdate) so two pods never run at once.
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: bakery-ordering
+  template:
+    metadata:
+      labels:
+        app: bakery-ordering
+        space: bakery
+    spec:
+      imagePullSecrets:
+        - name: ghcr-secret
+      containers:
+        - name: ordering
+          image: ghcr.io/adriensieg/bakery-ordering:latest
+          imagePullPolicy: Always
+          ports:
+            - name: http
+              containerPort: 8000
+          env:
+            - name: PORT
+              value: "8000"
+            - name: LOG_LEVEL
+              value: "INFO"
+            # External URL is HTTPS (Cloudflare terminates TLS at the edge);
+            # traffic inside the cluster is plain HTTP.
+            - name: PUBLIC_URL
+              value: "https://bakery.devailab.work"
+            - name: CORS_ORIGINS
+              value: "https://chatgpt.com,https://chat.openai.com,https://openai.com"
+            - name: MCP_JSON_RESPONSE
+              value: "0"
+          readinessProbe:
+            httpGet:
+              path: /healthz
+              port: http
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            timeoutSeconds: 3
+            failureThreshold: 3
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: http
+            initialDelaySeconds: 15
+            periodSeconds: 20
+            timeoutSeconds: 3
+            failureThreshold: 3
+          resources:
+            requests:
+              cpu: "50m"
+              memory: "96Mi"
+            limits:
+              cpu: "500m"
+              memory: "256Mi"

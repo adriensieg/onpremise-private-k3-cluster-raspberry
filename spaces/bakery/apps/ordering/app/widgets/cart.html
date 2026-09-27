@@ -1,0 +1,269 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Maison Levain — Your box</title>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <style>
+    {{THEME_CSS}}
+
+    .lines {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+    .line {
+      display: grid;
+      grid-template-columns: 56px 1fr auto;
+      align-items: center;
+      gap: 13px;
+      background: var(--sugar);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 10px 13px;
+      box-shadow: var(--shadow);
+    }
+    .line .thumb {
+      width: 56px;
+      height: 56px;
+      border-radius: 999px 999px var(--radius-s) var(--radius-s);
+      background: radial-gradient(120% 90% at 50% 20%, var(--niche) 0%, var(--niche-edge) 100%);
+      border: 1px solid var(--niche-edge);
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+    }
+    .line .thumb svg { width: 74%; height: 74%; }
+    .line .thumb .emoji { font-size: 26px; }
+    .line .meta { min-width: 0; }
+    .line h3 {
+      font-family: var(--serif);
+      font-optical-sizing: auto;
+      font-weight: 600;
+      font-size: 16px;
+      margin: 0 0 2px;
+      letter-spacing: -.005em;
+    }
+    .line .unit { font-size: 12.5px; color: var(--ink-soft); }
+    .line .right {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 8px;
+    }
+    .line .line-total { font-size: 15px; }
+
+    .stepper {
+      display: inline-flex;
+      align-items: center;
+      gap: 2px;
+      background: var(--sugar-sunk);
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 2px;
+    }
+    .stepper button {
+      width: 28px;
+      height: 28px;
+      border: 0;
+      border-radius: 999px;
+      background: transparent;
+      color: var(--ink);
+      font-size: 18px;
+      line-height: 1;
+      cursor: pointer;
+      display: grid;
+      place-items: center;
+      transition: background-color .14s ease;
+    }
+    .stepper button:hover:not(:disabled) { background: var(--paper); }
+    .stepper button:disabled { opacity: .4; cursor: default; }
+    .stepper .qty {
+      min-width: 26px;
+      text-align: center;
+      font-weight: 600;
+      font-variant-numeric: tabular-nums;
+      font-size: 14px;
+    }
+    .remove { font-size: 12.5px; color: var(--framboise); }
+    .remove:hover { color: var(--framboise); }
+
+    .summary {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      padding: 4px 4px 14px;
+    }
+    .summary .label { font-size: 14px; color: var(--ink-soft); }
+    .summary .grand {
+      font-family: var(--serif);
+      font-weight: 600;
+      font-size: 22px;
+      color: var(--caramel);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .empty {
+      text-align: center;
+      padding: 30px 16px 34px;
+      background: var(--sugar);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+    .empty .mark { font-size: 40px; }
+    .empty h2 {
+      font-family: var(--serif);
+      font-weight: 600;
+      font-size: 19px;
+      margin: 8px 0 4px;
+    }
+    .empty p { margin: 0 0 16px; color: var(--ink-soft); font-size: 13.5px; }
+
+    .line.leaving { opacity: 0; transform: translateX(8px); transition: opacity .2s ease, transform .2s ease; }
+  </style>
+</head>
+<body>
+  <main class="app" id="root"></main>
+
+  <script>{{BRIDGE_JS}}</script>
+  <script>
+    (function () {
+      var esc = Bakery.escapeHtml;
+      var state = { items: [], total: '', error: null };
+
+      function cartPill(cart) {
+        var count = (cart && cart.count) || 0;
+        var total = (cart && cart.total) || '';
+        if (!count) {
+          return '<span class="cart-pill"><span class="basket">🧺</span> Cart empty</span>';
+        }
+        return '<span class="cart-pill">' +
+          '<span class="basket">🧺</span>' +
+          '<span class="count">' + count + '</span>' +
+          '<span class="dot">·</span>' +
+          '<span class="price">' + esc(total) + '</span></span>';
+      }
+
+      function lineHtml(item) {
+        return '<div class="line" data-id="' + esc(item.id) + '">' +
+          '<div class="thumb">' + Bakery.pastrySvg(item.shape, item.emoji) + '</div>' +
+          '<div class="meta">' +
+            '<h3>' + esc(item.name) + '</h3>' +
+            '<div class="unit">' + esc(item.price) + ' each · ' +
+              '<button class="link remove" data-id="' + esc(item.id) + '">Remove</button>' +
+            '</div>' +
+          '</div>' +
+          '<div class="right">' +
+            '<span class="price line-total">' + esc(item.line_total) + '</span>' +
+            '<div class="stepper">' +
+              '<button class="dec" data-id="' + esc(item.id) + '" aria-label="Decrease quantity">−</button>' +
+              '<span class="qty">' + item.quantity + '</span>' +
+              '<button class="inc" data-id="' + esc(item.id) + '" aria-label="Increase quantity">+</button>' +
+            '</div>' +
+          '</div>' +
+        '</div>';
+      }
+
+      function render(data) {
+        state.items = data.items || [];
+        state.total = data.total || (data.cart && data.cart.total) || '';
+        state.error = data.error || null;
+
+        var root = document.getElementById('root');
+        var header =
+          '<header class="top">' +
+            '<h1 class="wordmark">Your box<small>Maison Levain</small></h1>' +
+            cartPill(data.cart) +
+          '</header>';
+
+        if (!state.items.length) {
+          root.innerHTML = header +
+            '<section class="empty">' +
+              '<div class="mark" aria-hidden="true">🧺</div>' +
+              '<h2>Your box is empty</h2>' +
+              '<p>Nothing in here yet — let\'s find you something warm.</p>' +
+              '<button class="btn btn--primary" id="browse">Browse the counter</button>' +
+            '</section>';
+          var browse = document.getElementById('browse');
+          if (browse) browse.addEventListener('click', function () {
+            Bakery.sendMessage('Show me the bakery menu');
+          });
+          return;
+        }
+
+        root.innerHTML = header +
+          (state.error ? '<div class="notice">' + esc(state.error) + '</div>' : '') +
+          '<div class="lines">' + state.items.map(lineHtml).join('') + '</div>' +
+          '<div class="summary">' +
+            '<span class="label">Total</span>' +
+            '<span class="grand">' + esc(state.total) + '</span>' +
+          '</div>' +
+          '<button class="btn btn--primary btn--block" id="checkout">Place order · ' + esc(state.total) + '</button>';
+
+        wire(root);
+      }
+
+      function wire(root) {
+        root.querySelectorAll('.inc').forEach(function (b) {
+          b.addEventListener('click', function () { step(b.getAttribute('data-id'), +1); });
+        });
+        root.querySelectorAll('.dec').forEach(function (b) {
+          b.addEventListener('click', function () { step(b.getAttribute('data-id'), -1); });
+        });
+        root.querySelectorAll('.remove').forEach(function (b) {
+          b.addEventListener('click', function () { removeItem(b.getAttribute('data-id')); });
+        });
+        var co = document.getElementById('checkout');
+        if (co) co.addEventListener('click', checkout);
+      }
+
+      function currentQty(id) {
+        for (var i = 0; i < state.items.length; i++) {
+          if (state.items[i].id === id) return state.items[i].quantity;
+        }
+        return 0;
+      }
+
+      function busy(on) {
+        document.querySelectorAll('.stepper button, .remove, #checkout').forEach(function (el) {
+          el.disabled = on;
+        });
+      }
+
+      function step(id, delta) {
+        var next = currentQty(id) + delta;
+        busy(true);
+        Bakery.callTool('set_cart_quantity', { product_id: id, quantity: next })
+          .then(render)
+          .catch(function () { busy(false); });
+      }
+
+      function removeItem(id) {
+        var row = document.querySelector('.line[data-id="' + (window.CSS && CSS.escape ? CSS.escape(id) : id) + '"]');
+        busy(true);
+        if (row) row.classList.add('leaving');
+        Bakery.callTool('remove_from_cart', { product_id: id })
+          .then(function (data) { setTimeout(function () { render(data); }, 160); })
+          .catch(function () { busy(false); if (row) row.classList.remove('leaving'); });
+      }
+
+      function checkout() {
+        var co = document.getElementById('checkout');
+        busy(true);
+        if (co) co.textContent = 'Placing order…';
+        Bakery.callTool('checkout', {})
+          .then(function () { /* host swaps in the confirmation widget */ })
+          .catch(function () {
+            busy(false);
+            if (co) co.textContent = 'Place order · ' + state.total;
+          });
+      }
+
+      Bakery.boot(render);
+    })();
+  </script>
+</body>
+</html>

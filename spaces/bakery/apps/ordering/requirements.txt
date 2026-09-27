@@ -1,0 +1,9 @@
+# Runtime dependencies for the Bakery MCP server.
+#
+# The low-level MCP API used here (decorator-based `Server`,
+# `StreamableHTTPServerTransport` keyed by the Mcp-Session-Id header) is the
+# stable v1 line. v2 reworked that surface, so we pin below it deliberately.
+mcp>=1.13,<2
+fastapi>=0.115,<1
+uvicorn[standard]>=0.30,<1
+pydantic>=2.7,<3
